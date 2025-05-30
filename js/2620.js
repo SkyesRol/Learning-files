@@ -17,4 +17,4 @@ var createCounter = function(n) {
  * counter() // 12
  */                       
 
-//闭包
+//闭包的使用和理解，。。。
