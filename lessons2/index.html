@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>音乐播放器</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        
+        .player-container {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            padding: 20px;
+            padding-bottom: 180px; /* 为底部控制栏留出空间 */
+        }
+        
+        .control-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #fff;
+            padding: 15px 20px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .now-playing {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            width: 60%;
+            margin-left: 40px;
+        }
+        
+        .now-playing img {
+            width: 60px;
+            height: 60px;
+            border-radius: 4px;
+        }
+        
+        .now-playing .song-info {
+            text-align: center;
+        }
+        
+        .now-playing .song-name {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .now-playing .artist {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .progress-container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 10px 0;
+        }
+        
+        #progress {
+            width: 100%;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: #e0e0e0;
+            border-radius: 3px;
+            outline: none;
+        }
+        
+        #progress::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #1db954;
+            cursor: pointer;
+        }
+        
+        #progress::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #1db954;
+            cursor: pointer;
+        }
+        
+        .player-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+        }
+        
+        .player-controls button {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 120px;
+        }
+        
+        .volume-control i {
+            font-size: 16px;
+        }
+        
+        .volume-slider {
+            width: 80px;
+        }
+        
+        .progress-container, .volume-container {
+            width: 100%;
+        }
+        
+        .playlist {
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .song {
+            display: grid;
+            grid-template-columns: 50px 1fr auto;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+        
+        .song-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .song p {
+            margin: 0;
+            text-align: center;
+        }
+        
+        .song .artist {
+            font-size: 12px;
+            color: #999;
+            text-align: center;
+        }
+        
+        .song .duration {
+            text-align: right;
+            padding-right: 10px;
+            color: #666;
+        }
+        .song img {
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+        }
+        .mode-container {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="player-container">
+        <div class="playlist">
+            <div class="song">
+                <img src="https://p4.music.126.net/-kiI3iZ0-iJO-6-oPgPc-g==/109951166073015392.jpg" alt="歌曲封面">
+                <div class="song-info">
+                    <p>Lose You To Love Me</p>
+                    <div class="artist">Selena Gomez</div>
+                </div>
+                <div class="duration">3:26</div>
+            </div>
+            <div class="song">
+                <img src="https://p4.music.126.net/-kiI3iZ0-iJO-6-oPgPc-g==/109951166073015392.jpg" alt="歌曲封面">
+                <div class="song-info">
+                    <p>Lose You To Love Me</p>
+                    <div class="artist">Selena Gomez</div>
+                </div>
+                <div class="duration">3:26</div>
+            </div>
+            <div class="song">
+                <img src="https://p4.music.126.net/-kiI3iZ0-iJO-6-oPgPc-g==/109951166073015392.jpg" alt="歌曲封面">
+                <div class="song-info">
+                    <p>Lose You To Love Me</p>
+                    <div class="artist">Selena Gomez</div>
+                </div>
+                <div class="duration">3:26</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="control-bar">
+        <div class="now-playing">
+            <img src="https://p4.music.126.net/-kiI3iZ0-iJO-6-oPgPc-g==/109951166073015392.jpg" alt="当前播放">
+            <div class="song-info">
+                <div class="song-name">Lose You To Love Me</div>
+                <div class="artist">Selena Gomez</div>
+            </div>
+        </div>
+        
+        <div class="progress-container">
+            <input type="range" id="progress" min="0" max="100" value="0">
+        </div>
+        
+        <div class="player-controls">
+            <button id="prev"><i class="fas fa-step-backward"></i></button>
+            <button id="play"><i class="fas fa-play"></i></button>
+            <button id="next"><i class="fas fa-step-forward"></i></button>
+            <button id="mode"><i class="fas fa-random"></i></button>
+            <div class="volume-control">
+                <i class="fas fa-volume-up"></i>
+                <input type="range" class="volume-slider" id="volume" min="0" max="100" value="50">
+            </div>
+        </div>
+    </div>
+</body>
+</html>
