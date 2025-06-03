@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="BootStrap v5.3/css/bootstrap.min.css">
+</head>
+<body>
+    <!-- 挂载点 -->
+     <div class="container">
+<table id="friends" class="table table-striped table-hover" >
+<thead>
+    <tr>
+        <th>姓名</th>
+        <th>年龄</th>
+        <th>爱好</th>
+    </tr>  
+</thead>
+<tbody>
+    
+</tbody>
+
+</table>
+
+     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+        // JSON 数组
+        // DOM 编程 动态页面 数据（需要挂载点）
+        // 挂载点 衣服撑子 挂 不同的衣服
+        // html 由js 动态生成
+        const hang = document.querySelector('#friends tbody');
+        const friends =[ {
+            'name': 'John',
+            'age': 30,
+            'hobbies': ['music', 'movies', 'sports']
+        },
+    {
+        'name': 'Ana',
+        'age': 20,
+        'hobbies': ['movies', 'sports']
+    },
+    {
+        'name': 'Chris',
+        'age': 25,
+        'hobbies': ['music', 'movies']
+    }
+    
+    ];
+    // 当直接return数组时，浏览器也能显示，因为浏览器会自动调用toString方法
+    hang.innerHTML = friends.map((item) => {
+        return `<tr>
+        <td>${item.name}</td>
+        <td>${item.age}</td>
+        <td>${item.hobbies.join(',')}</td>
+    </tr>`
+    }).join('');
+    //  在浏览器中：
+   // [1,2,3] + "" => "1,2,3"  底层调用toString方法
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
