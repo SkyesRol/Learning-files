@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul id="friends"></ul>
+
+
+    <script>
+
+        const friends =[
+            {
+                name:'Fade',
+                hometown:'Kiev'
+            },
+            {
+                name:'Vasya',
+                hometown:'Lviv'
+            },
+            {
+                name:'Petya',
+                hometown:'Odessa'
+            },
+        ];
+            // DOM 编程
+        const ul = document.getElementById('friends');
+        // const ul = document.querySelector('#friends');
+        
+        // for (let friend of friends) {
+        //     // 如果不需要index，for of 更加语义化
+        //     // for of？ for in？
+        //     ul.innerHTML += `<li>${friend.name} - 
+        //         <i>${friend.hometown}</i>
+        //         </li>`;
+
+
+
+
+        // }
+            // ES6 foreach的升级版，其会迭代每一个元素
+            // 迭代
+            // foreach遍历每个元素，执行回调函数，但是没有返回值
+            // map遍历每个元素，执行回调函数，有返回值
+        ul.innerHTML = friends.map((friend)=>
+            ` <li>${friend.name} -
+                <i>${friend.hometown}</i>
+                </li> `
+            
+        ).join('');
+         
+    </script>
+</body>
+</html>

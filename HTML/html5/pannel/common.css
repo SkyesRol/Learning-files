@@ -1,0 +1,59 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    /*vh 相对单位 相对于视窗 view-height 
+    一屏高度就是100vh，按照这个等比例划分*/
+    overflow: hidden;
+    
+    
+}
+.container{
+    display: flex;
+    width: 90vw;
+    
+}
+
+
+.qq-panel{
+    height: 80vh;
+    border-radius: 50px;
+    color:#fff;
+    cursor: pointer;
+    margin:20px;
+    position:relative;
+    flex:0.5;/*grow shrink basis*/
+    transition: all 400ms ease-in-out;/*过渡效果 元素样式改变后*/
+                /*在什么情况下执行过渡效果  过渡时间  怎么过渡*/
+}
+
+.qq-panel__title{
+    font-size: 20px;
+    position: absolute;
+    bottom: 20px;
+    left:20px;
+    opacity: 0;
+}
+
+.qq-panel_active{
+    flex:5;
+}
+
+.qq-panel_active .qq-panel__title{
+    
+    opacity: 1;
+    transition: opacity 300ms ease-in 200ms ;
+}
+
+
+
+
+
+
