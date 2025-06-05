@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>伪类选择器</title>
+    <style>
+        /*一般用一个冒号，单独写用两个冒号*/
+        /*行为伪类 hover active selection*/
+        button:active{
+            background-color: red;
+            color: white;
+
+        }
+        p:hover{
+            background-color: yellow;
+        }
+        ::selection{
+            background-color: blue;
+            color:white;
+        }
+        /*状态伪类 focus checked*/
+        input:focus{
+            border: 2px solid blue;
+        }
+        input:checked+label{
+            font-weight:bold;
+            
+        }
+        
+        /*input处于checked状态下，所选的label的字体加粗*/
+        /*结构伪类 nth-child*/
+        li:nth-child(even){
+            background-color: rgb(211, 211, 208);
+        }
+        li:nth-child(odd){
+            background-color: rgb(95, 95, 90);
+        }
+        /*条件伪类*/
+        li:not(:last-child){
+            margin-bottom: 10px;
+        }
+    /*选中第几个子元素，odd奇数 even偶数*/
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>伪类选择器示例</h1>
+        <p>CSS伪类用于定义元素的特殊状态，如:hover :active</p>
+        <button>惦记我~</button>
+        <p>鼠标悬浮在这里</p>
+        <input autofocus type="text" placeholder="Please enter messages">
+        <input type="checkbox" name="check1" id="option1">
+        <label for="option1">1</label>
+        <input type="checkbox" name="check1" checked id="option2">
+        <label for="option2">2</label>
+        <ul>
+            <li>列表1</li>
+            <li>列表2</li>
+            <li>列表3</li>
+            <li>列表4</li>
+        </ul>
+        <!-- autofocus自动聚焦，或者按tab从文件上面到下面依次聚焦，checkbox加了checked后默认选中 -->
+    </div>
+</body>
+</html>

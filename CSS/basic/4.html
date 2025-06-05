@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /*如果把p去掉，则选择container中的第几个元素*/
+        .container p:nth-child(5){
+            background-color: yellow;
+            color:black;
+        }
+        /*.container p:nth-child(2)选择器的含义是：
+        在类名为container的元素内选择第三个子元素，
+        并且这个子元素必须是p标签 (只选择子元素，而不会选择孙代)*/
+        .container#demo p:nth-of-type(2){
+            background-color: aqua;
+            color:black;
+        } 
+    </style>
+</head>
+<body>
+    <div class="container" id="demo">
+        <h1>nth-child vs nth-of-type</h1>
+        <p>这是个段落</p>
+        <div>这是个div
+            <p>div内的p</p>
+        </div>
+        <p>第二个段落</p>
+        <p>第三个段落</p>
+        <div>这是第二个div</div>
+    </div>
+</body>
+</html>

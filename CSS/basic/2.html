@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+       /*兄弟选择器，只选一个相邻的同级的兄弟*/
+        h1+p{
+            color: red;
+        }
+        /*h1后面所有的兄弟*/
+        h1~p{
+            color:blue;
+        }
+        /*只选择了子代的p而没有孙代的p*/
+        .container>p{
+            font-weight: bold;
+        }
+        /*选择了container中所有的p*/
+        .container p{
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <p>标题之前的p标签</p>
+        <h1>标题</h1>
+        <p>this is the first graph</p>
+        <p>this is the second graph</p>
+        <a href="#">link</a>
+        <span>this is a span</span>
+        <div class="inner">
+            <p>this is within</p>
+        </div>
+    </div>
+</body>
+</html>
