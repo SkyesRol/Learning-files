@@ -43,7 +43,7 @@ const headers = {
   // 内容类型
   "Content-Type": "application/json",
   // 授权  Bearer 令牌（授权码前缀）
-  Authorization:`Bearer sk-0325f5f498f9445f98c80bc44a8616a7`,
+  Authorization:`Bearer api-key`,
   "deepseek-organization": "deepseek-ai",
 }
   // 请求体
