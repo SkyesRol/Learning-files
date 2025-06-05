@@ -775,3 +775,128 @@ IEEE 754 双精度浮点数（64位）由三部分组成：
 
 #### 总结
 `Number.MAX_SAFE_INTEGER = 2^53 - 1` 是由 IEEE 754 双精度浮点数的 53 位有效精度决定的，超过此范围的整数可能会丢失精度或导致运算错误。
+
+
+
+# JavaScript AI application
+
+
+
+~~~html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Basic Project</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <h1>Hello DeepSeek</h1>
+  <!-- 挂载点 -->
+  <div id="reply">   </div>
+
+
+  <script src="js/main.js"></script>
+</body>
+</html>
+~~~
+
+
+
+~~~js
+//  通过JS 引入 DeepSeek
+
+
+// 当LLM API 服务
+// chat 方式 AIGC 生成/完成 返回的内容
+// 由openai 制定的
+// 请求行
+const endpoint = "https://api.deepseek.com/chat/completions";
+// 请求头
+const headers = {
+  // 内容类型
+  "Content-Type": "application/json",
+  // 授权  Bearer 令牌（授权码前缀）
+  Authorization:`Bearer sk-0325f5f498f9445f98c80bc44a8616a7`,
+  "deepseek-organization": "deepseek-ai",
+}
+  // 请求体
+  const payload={
+    
+    model:'deepseek-chat',
+    messages:[
+      {
+        role:'system',
+        content:'你是一个非常有帮助的助手'
+      },
+
+      {
+        role:'user',
+        content:'Hello,u little cute LLM'
+      },
+
+    ]
+
+
+  }
+  // 发起请求
+  fetch(endpoint,{
+    method:'POST',
+    headers,
+    body:JSON.stringify(payload)
+  })
+.then(response=>response.json())
+.then(data=>{
+  console.log(data)
+      // 挂载到html中
+  document.querySelector('#reply').innerHTML+=data.choices[0].message.content
+ 
+})
+
+~~~
+
+##  为什么有.choices[0]? 
+
+因为data返回的是一个复杂的数组：
+
+数组里面包含着Object结构
+
+
+
+![](./../../Typora Md/TyporaPic/屏幕截图 2025-06-05 203016.png)
+
+![](./../../Typora Md/TyporaPic/屏幕截图 2025-06-05 203533.png)
+
+## 请求头 请求体
+
+![image-20250605211528417](./../../Typora Md/TyporaPic/image-20250605211528417.png)
+
+**## http 请求**
+
+-   请求行  包含：请求方法（GET、POST）、URL（请求的地址）、请求的协议
+
+-   POST https://api.deepseek.com/chat/completions
+
+-   请求头  
+
+   设置各种头部信息
+
+   {
+
+​    Content-Type: application/json, //传送的内容的类型
+
+​    Authorization:`Bearer api-key`, // 请求凭证
+
+   }
+
+-   请求体
+
+   GET 没有请求体
+
+   POST 可以有请求体
+
+由网站发来的信息显示，AI的role为assistant，由openai定制
+
+![image-20250605211706872](./../../Typora Md/TyporaPic/image-20250605211706872.png)
