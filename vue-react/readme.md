@@ -65,4 +65,65 @@ select variant
 cd friends
 npm install
 npm run dev
+--------------------------------------------------------------------------
+# REACT 业务    2025.6.4
+
+Web 应用   （百度）        移动应用（Android IOS）
+
+## 项目的创建
+
+- npm 是什么？ node package manager
+  node 包管理器 安装react  package App开发能力
+
+  - npm init vite 初始化一个项目
+  
+按 vite模板初始化一个项目
+vite：  vue/react 的项目模板和工程化
+
+- 选择一些配置
+
+- react 框架
+- js    语言
+
+选完之后，我们得到了一个项目模板，基于其开发
+
+- cd 项目名
+- npm install  安装依赖
+node_modules  依赖包
+- npm run dev  启动项目
+ 以http协议启动  5173 端口启动应用  react 技术栈 Web App
+
+为什么创建这么复杂？
+因为我们做的是一个**项目**
+
+
+远离 JS API 编程，面向业务
+
+
+## Todos 任务列表
+- 数据 ['脱单'、'学习'、'健身']
+    数据在页面上渲染 react 提供点啥支持这个业务
+
+
+## react 初体验
+
+- react 组件是完成开发任务的最小单元
+- 组件组合html、css、js
+- 组件是一个函数
+- 返回html
+- 函数体里面 return 之前可以声明数据和各种业务逻辑
+- {}  js 表达式  不用写DOM API
+
+## 响应式数据
+
+- 数据是会发生改变的，数据状态 state
+- [todos, setTodos] = useState(初始值) 使用一个数据状态，返回一个数组
+    数组第一项   数据项
+    数组第二项   修改数据项的方法
+
+
+
+
+
+
 
