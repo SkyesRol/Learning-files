@@ -900,3 +900,160 @@ const headers = {
 由网站发来的信息显示，AI的role为assistant，由openai定制
 
 ![image-20250605211706872](./../../Typora Md/TyporaPic/image-20250605211706872.png)
+
+
+
+
+
+# **`constructor` 和 `prototype` 详解**
+
+在 JavaScript 中，`constructor` 和 `prototype` 是 **面向对象编程（OOP）** 的核心概念，它们构成了 **原型链（Prototype Chain）** 的基础。
+
+---
+
+## **1. `prototype`（原型）**
+### **(1) 什么是 `prototype`？**
+- **每个函数（构造函数）都有一个 `prototype` 属性**（默认是一个对象）。
+- **`prototype` 用于定义由该构造函数创建的实例共享的属性和方法**。
+
+### **(2) 默认的 `prototype`**
+```javascript
+function Person(name) {
+    this.name = name;
+}
+
+// 默认的 `prototype` 结构：
+console.log(Person.prototype);
+// {
+//   constructor: Person,  // 默认包含 constructor
+//   __proto__: Object.prototype  // 继承自 Object
+// }
+```
+
+### **(3) `prototype` 的作用**
+- **`prototype` 上的属性和方法可以被所有实例共享**：
+  ```javascript
+  Person.prototype.sayHello = function() {
+      console.log("Hello, " + this.name);
+  };
+  
+  const alice = new Person("Alice");
+  const bob = new Person("Bob");
+  
+  alice.sayHello(); // "Hello, Alice"
+  bob.sayHello();   // "Hello, Bob"
+  ```
+  - 所有 `Person` 实例都能访问 `sayHello`，**避免重复定义方法**（节省内存）。
+
+---
+
+## **2. `constructor`（构造函数）**
+### **(1) 什么是 `constructor`？**
+- **`constructor` 是一个指向构造函数的引用**，它存储在 `prototype` 对象上。
+- **默认情况下，`prototype.constructor` 指向函数自身**：
+  ```javascript
+  console.log(Person.prototype.constructor === Person); // true ✅
+  ```
+
+### **(2) `constructor` 的作用**
+- **用于判断对象的构造函数**：
+  ```javascript
+  const alice = new Person("Alice");
+  console.log(alice.constructor === Person); // true ✅
+  ```
+- **可以动态创建新实例**：
+  ```javascript
+  function createFromConstructor(Constructor, ...args) {
+      return new Constructor(...args);
+  }
+  
+  const newPerson = createFromConstructor(Person, "Charlie");
+  console.log(newPerson.name); // "Charlie"
+  ```
+
+---
+
+## **3. `constructor` 和 `prototype` 的关系**
+| 属性                   | 说明                                   | 示例                                      |
+| ---------------------- | -------------------------------------- | ----------------------------------------- |
+| **`prototype`**        | 构造函数的原型对象，存储共享方法       | `Person.prototype.sayHello = ...`         |
+| **`constructor`**      | `prototype` 上的属性，指向构造函数本身 | `Person.prototype.constructor === Person` |
+| **实例的 `__proto__`** | 指向构造函数的 `prototype`             | `alice.__proto__ === Person.prototype`    |
+
+### **关系图**
+```
+实例（alice）  →  __proto__  →  Person.prototype
+                                   ↑
+                                   | constructor
+                                   Person（构造函数）
+```
+
+---
+
+## **4. 修改 `prototype` 对 `constructor` 的影响**
+### **(1) 直接添加方法（不影响 `constructor`）**
+```javascript
+Person.prototype.sayHello = function() { ... };
+console.log(Person.prototype.constructor === Person); // true ✅
+```
+- **只是添加方法，`constructor` 仍然指向 `Person`**。
+
+### **(2) 覆盖 `prototype`（会导致 `constructor` 丢失）**
+```javascript
+Person.prototype = {
+    sayHello: function() { ... }
+};
+console.log(Person.prototype.constructor === Person); // false ❌
+console.log(Person.prototype.constructor === Object); // true ✅
+```
+- **原因**：`{}` 是 `Object` 创建的，`constructor` 默认指向 `Object`。
+
+### **(3) 修复方式**
+```javascript
+Person.prototype = {
+    constructor: Person, // 手动修复
+    sayHello: function() { ... }
+};
+console.log(Person.prototype.constructor === Person); // true ✅
+```
+
+---
+
+## **5. 最佳实践**
+### **(1) 推荐 `class` 语法（ES6+）**
+```javascript
+class Person {
+    constructor(name) {
+        this.name = name;
+    }
+    sayHello() {
+        console.log("Hello, " + this.name);
+    }
+}
+```
+- **自动处理 `prototype` 和 `constructor`**，避免手动维护。
+
+### **(2) 避免直接覆盖 `prototype`**
+- **如果要扩展 `prototype`，尽量用 `Object.assign`**：
+  ```javascript
+  Object.assign(Person.prototype, {
+      sayHello() { ... },
+      sayGoodbye() { ... }
+  });
+  ```
+
+---
+
+## **6. 总结**
+| 概念                   | 描述                                                         |
+| ---------------------- | ------------------------------------------------------------ |
+| **`prototype`**        | 构造函数的原型对象，存储共享方法                             |
+| **`constructor`**      | 指向构造函数的引用，默认在 `prototype` 上                    |
+| **修改 `prototype`**   | 直接扩展不影响 `constructor`，覆盖会导致 `constructor` 指向 `Object` |
+| **修复 `constructor`** | 手动设置 `constructor: Constructor`                          |
+| **最佳实践**           | 使用 `class` 或 `Object.assign` 避免问题                     |
+
+**关键点**：
+- **`prototype` 用于共享方法**，减少内存占用。
+- **`constructor` 用于识别对象来源**，动态创建实例。
+- **不要直接覆盖 `prototype`**，否则要手动修复 `constructor`。
