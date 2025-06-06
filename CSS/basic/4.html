@@ -6,14 +6,14 @@
     <title>Document</title>
     <style>
         /*如果把p去掉，则选择container中的第几个元素*/
-        .container p:nth-child(5){
+        .container p:nth-child(1){
             background-color: yellow;
             color:black;
         }
         /*.container p:nth-child(2)选择器的含义是：
-        在类名为container的元素内选择第三个子元素，
-        并且这个子元素必须是p标签 (只选择子元素，而不会选择孙代)*/
-        .container#demo p:nth-of-type(2){
+        在类名为container的元素内选择第三个元素，
+        并且这个子元素必须是p标签 （由于选择器，其会选择子元素、孙元素等所包含的所有符合条件的元素）*/
+        .container#demo p:nth-of-type(1){
             background-color: aqua;
             color:black;
         } 
