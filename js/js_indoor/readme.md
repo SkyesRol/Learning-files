@@ -23,7 +23,7 @@ name = “hxt”   incomparable
 
 JS创建数据对象后可以对数据再赋值，这是动态语言的特性。
 
-// 常量对象
+// 常量对象 Variable
 // 声明后，在内存开辟一块空间，存放了一个对象，变量名对应了地址，其为地址的标记
 // js是弱类型语言
 // 对象字面量（字面意义上） JSON
@@ -39,3 +39,13 @@ JS创建数据对象后可以对数据再赋值，这是动态语言的特性。
 -软件系统的世界，复杂的，类现实世界的，
 -添加一个小红对象，和小美一样有receiveFlower方法，方法名一样，接口，小美和小红可以互换
 -面向接口（设计接口）的编程 面向对象思想的高级表现，即设计模式 Design Pattern
+
+
+attack: function() { 
+const randomWeapon = this.weapon_kind[Math.floor(Math.random() * this.weapon_kind.length)]; 
+return 
+`${this.name} used ${randomWeapon} to attack！ (Attack Damage:${Math.floor(Math.random() * 100)})`; 
+}, 
+speak: function() { 
+return "I am Iron Man!"
+};

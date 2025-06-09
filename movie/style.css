@@ -1,0 +1,39 @@
+.movie img {
+    width: 100%;
+}
+.movie{
+    width:300px;
+    margin:1rem;
+    position: relative;
+}
+main{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+
+.overview{
+    background-color: #fff;
+    padding:2rem;
+    position: absolute;
+    left:0;
+    bottom: 0;
+    right: 0;
+    min-height: 100%;
+    transform: translateY(101%);
+    transition:transform 0.3s ease-in;
+    overflow-y:auto ;
+}
+.movie:hover .overview{
+        transform: translateY(0);
+        
+}
+
+
+
+
+
+
+
+
