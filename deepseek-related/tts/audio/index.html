@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio 音乐</title>
+</head>
+<body>
+
+
+<audio src="D:\CloudMusic\Taylor Swift - False God.mp3">Audio</audio>
+<button id="play">播放</button>
+<button id="stop">暂停</button>
+<button onclick="alert('Hello')">更原始的事件</button>
+
+<script>
+    const oAudio = document.querySelector('audio');
+    document.getElementById('play').addEventListener('click',()=>{
+        oAudio.play();
+    })
+    document.getElementById('stop').addEventListener('click',()=>{
+        oAudio.pause();
+    })
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
