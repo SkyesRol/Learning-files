@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        /*row column
+        左边是侧边栏 200px 固定
+        右边是主题内容 自适应 宽度
+        */
+        .container{
+            /*对内管着子元素 flex格式化上下文 direction*/
+            display: flex;/*弹性格式上下文 对外 宽度弹性，由设备决定*/
+            flex-direction: row;/*方向*/
+            
+        }
+        .container main{
+            /*flex-grow flex-shrink flex-basis*/
+            flex:1 5 500px;
+            background-color: aquamarine;
+        }
+        .container aside{
+        flex:2 1 200px;
+        width: 200px;
+        background-color: pink;
+        }
+    </style>
+</head>
+<body>
+    <!-- html+css 页面做好排版
+     光有块级、行内标签不够
+     行列布局 -->
+    <div class="container">
+<aside>
+    广告/菜单
+</aside>
+<main>
+    主题内容
+</main>
+    </div>
+</body>
+</html>
