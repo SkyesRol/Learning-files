@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bug逃生舱</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="help-tip">按 <span class="key">H</span> 显示/隐藏帮助 | 按 <span class="key">T</span> 打开技能树</div>
+    
+    <!-- 添加状态面板 -->
+    <div class="status-panel">
+        <div class="status-section">
+            <div class="status-title">游戏状态</div>
+            <div class="status-item">
+                <span class="status-label">存活时间</span>
+                <span class="status-value" id="statusSurvivalTime">0秒</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">当前分数</span>
+                <span class="status-value" id="statusCurrentScore">0</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">最高分数</span>
+                <span class="status-value" id="statusHighScore">0</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">当前难度</span>
+                <span class="status-value" id="statusDifficulty">普通</span>
+            </div>
+        </div>
+        
+        <div class="status-section">
+            <div class="status-title">技能系统</div>
+            <div class="status-item">
+                <span class="status-label">技能点数</span>
+                <span class="status-value" id="statusSkillPoints">0</span>
+            </div>
+            <div class="skills-header">
+                <span class="status-label">已解锁技能</span>
+            </div>
+            <div class="skills-list" id="statusUnlockedSkills">
+                <!-- 已解锁技能将在这里动态添加 -->
+            </div>
+            <div class="skills-tip">
+                使用数字键 1-6 快速激活对应技能
+            </div>
+        </div>
+    </div>
+
+    <div class="game-container">
+        <div class="game-title">Bug逃生舱</div>
+        <canvas id="gameCanvas"></canvas>
+        <div id="sidebar" class="sidebar">
+            <h2>游戏说明</h2>
+            <div class="section">
+                <h3>控制方式</h3>
+                <p>
+                    <span class="key">W</span> 或 <span class="key">↑</span> 向上移动<br>
+                    <span class="key">S</span> 或 <span class="key">↓</span> 向下移动<br>
+                    <span class="key">A</span> 或 <span class="key">←</span> 向左移动<br>
+                    <span class="key">D</span> 或 <span class="key">→</span> 向右移动<br>
+                    <span class="key">H</span> 显示/隐藏帮助<br>
+                    <span class="key">T</span> 打开技能树
+                </p>
+            </div>
+            <div class="section">
+                <h3>难度</h3>
+                <p>
+                    <span class="key">1</span> 简单模式<br>
+                    <span class="key">2</span> 普通模式<br>
+                    <span class="key">3</span> 困难模式
+                </p>
+                <p>当前难度：<span id="currentDifficultyDisplay" class="highlight">普通</span></p>
+            </div>
+            <div class="section">
+                <h3>错误类型</h3>
+                <div class="bullet-type" style="color: #ff3333">JavaScript - 语法错误</div>
+                <div class="bullet-type" style="color: #9933ff">Python - 缩进错误</div>
+                <div class="bullet-type" style="color: #ffcc00">Java - 空指针异常</div>
+                <div class="bullet-type" style="color: #00aaff">C++ - 段错误 (阵列攻击)</div>
+            </div>
+            <div class="section">
+                <h3>编程语言</h3>
+                <div class="code-color">
+                    <span class="code-dot" style="background-color: #f7df1e"></span>
+                    <span>JavaScript</span>
+                </div>
+                <div class="code-color">
+                    <span class="code-dot" style="background-color: #3572A5"></span>
+                    <span>Python</span>
+                </div>
+                <div class="code-color">
+                    <span class="code-dot" style="background-color: #b07219"></span>
+                    <span>Java</span>
+                </div>
+                <div class="code-color">
+                    <span class="code-dot" style="background-color: #f34b7d"></span>
+                    <span>C++</span>
+                </div>
+            </div>
+            <div class="section">
+                <h3>工具系统</h3>
+                <div class="power-up" style="color: #00ff00">代码审查 - 5秒免疫错误</div>
+                <div class="power-up" style="color: #0088ff">断点调试 - 3秒减慢错误移动</div>
+                <div class="power-up" style="color: #ff8800">全局修复 - 清除所有错误</div>
+                <div class="power-up" style="color: #ff44ff">调试模式 - 点击错误进行修复</div>
+            </div>
+            <div class="section">
+                <h3>技能点获取</h3>
+                <div class="skill-point-info">游戏得分：每200分获得5点</div>
+                <div class="skill-point-info">修复错误：每修复1个错误获得10点</div>
+                <div class="skill-point-info">成功防御：使用护盾或异步防御躲避错误获得5点</div>
+                <div class="skill-point-info">技能消耗：使用技能会消耗相应点数</div>
+            </div>
+        </div>
+    </div>
+    <div id="gameOver" class="modal">
+        <div class="modal-content">
+            <h2>游戏结束</h2>
+            <div class="survival-time">存活时间: <span id="survivalTime" class="highlight">0</span> 秒</div>
+            <div class="status-item">
+                <span class="status-label">当前难度</span>
+                <span class="status-value" id="gameOverDifficulty">普通</span>
+            </div>
+            <div class="restart-tip">
+                按 <span class="key">空格键</span> 重新开始<br>
+                按 <span class="key">R</span> 切换难度
+            </div>
+        </div>
+    </div>
+    <div id="introModal" class="modal">
+        <div class="modal-content">
+            <h2>欢迎来到Bug逃生舱</h2>
+            <div class="section">
+                <h3>游戏背景</h3>
+                <p>
+                    在这个充满代码的宇宙中，你是一名程序员，驾驶着飞船穿梭在代码海洋中。
+                    然而，各种编程错误如同弹幕一般向你袭来！
+                    你需要灵活操控飞船，躲避这些令人头疼的Bug，同时收集各种编程工具来提升你的能力。
+                </p>
+            </div>
+            <div class="section">
+                <h3>游戏目标</h3>
+                <p>
+                    - 尽可能长时间地生存<br>
+                    - 躲避各种编程语言的错误<br>
+                    - 收集技能点解锁强大的编程技能<br>
+                    - 使用工具修复错误，提高分数
+                </p>
+            </div>
+            <div class="section">
+                <h3>特色系统</h3>
+                <p>
+                    <strong>技能树系统</strong>：解锁并升级各种编程技能<br>
+                    <strong>错误修复</strong>：使用调试模式修复错误获取额外技能点<br>
+                    <strong>阵列错误</strong>：特殊的错误类型，需要更多策略应对
+                </p>
+            </div>
+            <button id="introButton" class="button pulse">继续</button>
+        </div>
+    </div>
+    <div id="startModal" class="modal">
+        <div class="modal-content">
+            <h2>Bug逃生舱</h2>
+            <div class="section">
+                <h3>控制方式</h3>
+                <p>
+                    <span class="key">W</span> 或 <span class="key">↑</span> 向上移动<br>
+                    <span class="key">S</span> 或 <span class="key">↓</span> 向下移动<br>
+                    <span class="key">A</span> 或 <span class="key">←</span> 向左移动<br>
+                    <span class="key">D</span> 或 <span class="key">→</span> 向右移动<br>
+                    <span class="key">H</span> 显示/隐藏帮助<br>
+                    <span class="key">T</span> 打开技能树
+                </p>
+            </div>
+            <div class="section">
+                <h3>难度选择</h3>
+                <p>
+                    <span class="key" style="color: #00ff00; border-color: #00ff00;">1</span> <span style="color: #00ff00;">简单模式</span><br>
+                    <span class="key">2</span> 普通模式<br>
+                    <span class="key" style="color: #ff3333; border-color: #ff3333;">3</span> <span style="color: #ff3333;">困难模式</span>
+                </p>
+                <p>当前难度：<span id="startDifficultyDisplay" class="highlight">普通</span></p>
+            </div>
+            <div class="section">
+                <h3>错误类型</h3>
+                <div class="bullet-type" style="color: #ff3333">JavaScript - 语法错误</div>
+                <div class="bullet-type" style="color: #9933ff">Python - 缩进错误</div>
+                <div class="bullet-type" style="color: #ffcc00">Java - 空指针异常</div>
+                <div class="bullet-type" style="color: #00aaff">C++ - 段错误 (阵列攻击)</div>
+            </div>
+            <div class="section">
+                <h3>工具系统</h3>
+                <div class="power-up" style="color: #00ff00">代码审查 - 5秒免疫错误</div>
+                <div class="power-up" style="color: #0088ff">断点调试 - 3秒减慢错误移动</div>
+                <div class="power-up" style="color: #ff8800">全局修复 - 清除所有错误</div>
+                <div class="power-up" style="color: #ff44ff">调试模式 - 点击错误进行修复</div>
+            </div>
+            <div class="section">
+                <h3>技能点获取</h3>
+                <div class="skill-point-info">游戏得分：每200分获得5点</div>
+                <div class="skill-point-info">修复错误：每修复1个错误获得10点</div>
+                <div class="skill-point-info">成功防御：使用护盾或异步防御躲避错误获得5点</div>
+                <div class="skill-point-info">技能消耗：使用技能会消耗相应点数</div>
+            </div>
+            <button id="startButton" class="button pulse">开始游戏</button>
+        </div>
+    </div>
+    
+    <div id="skillTree" class="skill-tree">
+        <h2>编程技能树</h2>
+        <p>当前技能点: <span id="skillPointsDisplay" class="highlight">0</span></p>
+        <div class="skill-grid">
+            <div class="skill-card" data-skill="asyncDefense" data-cost="40">
+                <div class="skill-icon">⏱️</div>
+                <div class="skill-name">异步防御</div>
+                <div class="skill-desc">激活后短暂无敌，类似Promise.all的并行处理</div>
+                <div class="skill-cost">消耗: 40点</div>
+            </div>
+            <div class="skill-card" data-skill="garbageCollector" data-cost="35">
+                <div class="skill-icon">🗑️</div>
+                <div class="skill-name">垃圾回收</div>
+                <div class="skill-desc">清除屏幕上的所有错误，释放内存</div>
+                <div class="skill-cost">消耗: 35点</div>
+            </div>
+            <div class="skill-card" data-skill="debugger" data-cost="35">
+                <div class="skill-icon">🔍</div>
+                <div class="skill-name">调试器</div>
+                <div class="skill-desc">暂停游戏，点击错误进行修复</div>
+                <div class="skill-cost">消耗: 35点</div>
+            </div>
+            <div class="skill-card" data-skill="codeOptimization" data-cost="25">
+                <div class="skill-icon">⚡</div>
+                <div class="skill-name">代码优化</div>
+                <div class="skill-desc">永久提升移动速度10%（最多提升20%）</div>
+                <div class="skill-cost">消耗: 25点</div>
+            </div>
+            <div class="skill-card" data-skill="multiThreading" data-cost="30">
+                <div class="skill-icon">🧵</div>
+                <div class="skill-name">多线程</div>
+                <div class="skill-desc">创建分身，可以承受一次伤害</div>
+                <div class="skill-cost">消耗: 30点</div>
+            </div>
+            <div class="skill-card" data-skill="refactoring" data-cost="15">
+                <div class="skill-icon">🔄</div>
+                <div class="skill-name">重构</div>
+                <div class="skill-desc">改变所有错误的移动方向</div>
+                <div class="skill-cost">消耗: 15点</div>
+            </div>
+        </div>
+        <button id="closeSkillTree" class="button">关闭</button>
+    </div>
+    
+    <div id="debugPanel" class="debug-panel">
+        <div class="debug-title">调试面板</div>
+        <div class="debug-info" id="debugInfo">未选中错误</div>
+    </div>
+    
+    <script src="game.js"></script>
+</body>
+</html> 
