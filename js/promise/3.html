@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul id="repos"></ul>
+    <button id="btn">Load</button>
+    <script>
+        // 异步任务 网络请求
+        // 事件 网页加载的一个事件 资源加载完了
+        document.getElementById('btn').addEventListener('click',()=>{
+            console.log('clicked');
+            
+        })
+        // async 异步任务 声明函数为async函数，在async函数中可以使用await
+        // await 等到右边的异步任务执行完，再执行后面的代码，异步变同步
+        document.addEventListener('DOMContentLoaded',async()=>{
+            console.log('DOMContentLoaded');
+            //DOM已经Ready，可以尽快发送请求
+            // 利用then控制流程
+           const res = await fetch('https://api.github.com/users/SkyesRol/repos')
+            const data = await res.json() // 解析为json
+            // .then(data=>{  // 拿到json数据
+                console.log(data);
+                document.getElementById('repos').innerHTML = data.map(item=>{
+                    return `<li>
+                        <a href="${item.html_url}">${item.name}</a>
+                        </li>`
+                }).join('')
+            // })
+        })
+        // window.onload 并非最先执行，DOMContentLoaded 会先执行
+        window.onload = function(){
+            console.log('onload');
+            
+        }
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+</html>

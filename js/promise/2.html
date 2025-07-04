@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 异步任务
+        // fetch (网络请求) then
+        // es6的Promise ：异步变为同步的一种解决方案
+        // promise 实例化需要参数 传入一个函数，此函数会立即运行
+        const p = new Promise((resolve,reject)=>{  // 同步
+            console.log('333');    // 立即执行
+            
+            setTimeout(()=>{    // 定时器注册
+                console.log('222');
+                resolve();
+            },1000)
+        })
+        // Promise 实例 Prototype上有一个.then 方法，由此可以将同步代码
+        // 放在异步代码后执行
+        //console.log(p);
+        p.then(()=>{
+            console.log('then');
+            
+        })
+        console.log('111');
+        
+    </script>
+</body>
+</html>
