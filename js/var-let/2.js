@@ -1,0 +1,26 @@
+
+// 一句代码
+// v8引擎
+// 变量提升
+// 编译阶段
+// 执行阶段
+// 全局 != window
+// 全局作用域中的变量
+// window? 前端方式运行就会挂载到window上
+var a = 1;
+//console.log(window.a); // window is not defined
+console.log(global.a); // node 顶层对象
+
+
+
+
+
+
+
+
+
+
+
+
+
+

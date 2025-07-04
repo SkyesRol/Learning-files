@@ -186,12 +186,11 @@ canvas {
     left: 50%;
     transform: translate(-50%, -50%);
     background: rgba(10, 10, 15, 0.95);
-    padding: 30px;
+    padding: 20px;
     border-radius: 15px;
     border: 1px solid rgba(0, 136, 255, 0.5);
-    width: 80%;
-    max-width: 900px;
-    max-height: 85vh;
+    width: 800px;
+    height: 600px;
     overflow-y: auto;
     z-index: 1001;
     box-shadow: 0 0 40px rgba(0, 136, 255, 0.4);
@@ -893,4 +892,84 @@ canvas {
 .skill-card.unlocked .skill-progress-bar {
     background: linear-gradient(to right, #0088ff, #00ffaa);
     width: 100% !important;
+}
+
+/* 音乐控制界面样式 */
+.audio-controls {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 1000;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    border: 1px solid #00ffff;
+}
+
+.audio-button {
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: #222;
+    transition: all 0.3s;
+    border: 1px solid #00ffff;
+}
+
+.audio-button:hover {
+    background-color: #333;
+    transform: scale(1.1);
+}
+
+.audio-button.active {
+    background-color: #00ffff;
+    color: #000;
+}
+
+.audio-button.muted .audio-icon {
+    text-decoration: line-through;
+    opacity: 0.5;
+}
+
+.audio-volume {
+    width: 80px;
+}
+
+.audio-volume input[type="range"] {
+    width: 100%;
+    height: 5px;
+    -webkit-appearance: none;
+    background: #444;
+    outline: none;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 1);
+}
+
+.audio-volume input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #00ffff;
+    cursor: pointer;
+    border: 2px solid #000;
+    box-shadow: -80px 0 0 80px #00ffff;
+}
+
+.audio-track-info {
+    color: #00ffff;
+    font-size: 12px;
+    white-space: nowrap;
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

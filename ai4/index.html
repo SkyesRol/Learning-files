@@ -9,6 +9,22 @@
 <body>
     <div class="help-tip">按 <span class="key">H</span> 显示/隐藏帮助 | 按 <span class="key">T</span> 打开技能树</div>
     
+    <!-- 添加音乐控制界面 -->
+    <div class="audio-controls">
+        <div class="audio-button" id="toggleMusic" title="音乐开关">
+            <span class="audio-icon">🎵</span>
+        </div> 
+        <div class="audio-volume">
+            <input type="range" id="musicVolume" min="0" max="100" value="50" title="音乐音量">
+        </div>
+        <div class="audio-track-info">
+            <span id="currentTrackName">无音乐播放中</span>
+        </div>
+    </div>
+    
+    <!-- 添加音频元素 -->
+    <audio id="backgroundMusic" loop></audio>
+    
     <!-- 添加状态面板 -->
     <div class="status-panel">
         <div class="status-section">

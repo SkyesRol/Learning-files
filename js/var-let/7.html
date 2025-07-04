@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var name = 'windowsName';
+        var a = {
+            name: 'a',
+            func1:function(){
+                console.log(this.name);
+                
+            },
+            func2:function(){
+                // this => a 
+                setTimeout(()=>{
+                    // 没有this， 箭头函数该省就省
+                    this.func1();
+                },1000)
+
+                // setTimeout(function(){
+                //     // 这一个执行setTimeout绑定到全局
+                //     this.func1();
+                // },1000)
+            }
+        }
+        a.func2();
+        </script>
+</body>
+</html>

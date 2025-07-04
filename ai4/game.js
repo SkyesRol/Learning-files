@@ -26,6 +26,19 @@ const config = {
             scoreMultiplier: 3
         }
     },
+    // 添加音频配置
+    audio: {
+        music: {
+            enabled: true,
+            volume: 0.5,
+            tracks: {
+                default: 'https://music.163.com/song/media/outer/url?id=649890.mp3'
+            },
+            trackNames: {
+                default: '下村陽子 - 対武器ボス戦'
+            }
+        }
+    },
     bulletTypes: {
         normal: {
             color: '#ff3333',
@@ -378,6 +391,194 @@ const SKILL_HOTKEYS = {
     'Digit6': 'refactoring'      // 6 - 重构
 };
 
+// 音频控制系统
+const audioSystem = {
+    backgroundMusic: null,
+    currentTrack: null,
+    
+    init() {
+        try {
+            this.backgroundMusic = document.getElementById('backgroundMusic');
+            
+            // 监听音频加载完成事件
+            this.backgroundMusic.addEventListener('canplaythrough', () => {
+                console.log('音频加载完成，可以播放');
+                showNotification('音乐已准备就绪', 2000, '#00ff00');
+            });
+            
+            // 全局错误处理
+            this.backgroundMusic.addEventListener('error', (e) => {
+                console.error('音频加载错误:', e);
+                const errorCode = this.backgroundMusic.error ? this.backgroundMusic.error.code : '未知';
+                console.error(`错误代码: ${errorCode}`);
+                
+                // 显示友好的错误信息
+                let errorMsg = '音频加载失败';
+                if (errorCode === 4) {
+                    errorMsg += ': 无法加载媒体';
+                } else if (errorCode === 3) {
+                    errorMsg += ': 解码错误';
+                } else if (errorCode === 2) {
+                    errorMsg += ': 网络错误';
+                } else if (errorCode === 1) {
+                    errorMsg += ': 中止加载';
+                }
+                
+                showNotification(errorMsg, 3000, '#ff0000');
+            });
+            
+            // 初始化音频控制按钮
+            this.initControls();
+            
+            // 从本地存储加载音频设置
+            this.loadSettings();
+            
+            // 告知用户需要点击页面以播放音频
+            showNotification('点击页面以开始播放音乐', 5000, '#ffcc00');
+            
+            // 创建一次性点击事件来启用音频
+            const enableAudioOnStartup = () => {
+                // 直接开始播放音乐
+                this.playMusic('default');
+                document.body.removeEventListener('click', enableAudioOnStartup);
+            };
+            document.body.addEventListener('click', enableAudioOnStartup);
+            
+            console.log('音频系统初始化完成');
+        } catch (error) {
+            console.error('初始化音频系统时出错:', error);
+            showNotification('音频系统初始化失败', 3000, '#ff0000');
+        }
+    },
+    
+    initControls() {
+        // 音乐开关按钮
+        const toggleMusic = document.getElementById('toggleMusic');
+        toggleMusic.addEventListener('click', () => {
+            config.audio.music.enabled = !config.audio.music.enabled;
+            toggleMusic.classList.toggle('muted', !config.audio.music.enabled);
+            
+            if (config.audio.music.enabled) {
+                this.resumeMusic();
+            } else {
+                this.pauseMusic();
+            }
+            
+            this.saveSettings();
+        });
+        
+        // 音量控制滑块
+        const musicVolume = document.getElementById('musicVolume');
+        musicVolume.addEventListener('input', () => {
+            const volume = musicVolume.value / 100;
+            config.audio.music.volume = volume;
+            this.backgroundMusic.volume = volume;
+            this.saveSettings();
+        });
+    },
+    
+    playMusic(trackKey) {
+        if (!config.audio.music.enabled) return;
+        
+        // 如果已经在播放同一首歌曲，不需要重新设置src
+        if (this.currentTrack === trackKey && this.backgroundMusic.src) {
+            return;
+        }
+        
+        this.currentTrack = trackKey;
+        
+        // 尝试多个可能的路径
+        const tryPaths = [
+            config.audio.music.tracks[trackKey],              // 原始路径
+            `./${config.audio.music.tracks[trackKey]}`,       // 添加./前缀
+            `/${config.audio.music.tracks[trackKey]}`,        // 尝试根路径
+            `../statics/bgc.mp3`,                             // 尝试上一级目录
+            `https://code.devrank.cn/statics/bgc.mp3` 
+                    // 尝试完整URL路径（如果需要）
+        ];
+        
+        // 使用第一个路径先尝试
+        this.backgroundMusic.src = tryPaths[0];
+        this.backgroundMusic.volume = config.audio.music.volume;
+        
+        // 更新当前播放曲目名称显示
+        document.getElementById('currentTrackName').textContent = config.audio.music.trackNames[trackKey];
+        
+        // 音频加载出错处理
+        this.backgroundMusic.onerror = (e) => {
+            console.warn(`音频加载失败: ${this.backgroundMusic.src}`, e);
+            
+            // 如果第一个路径失败，尝试下一个备选路径
+            const currentPathIndex = tryPaths.indexOf(this.backgroundMusic.src);
+            if (currentPathIndex < tryPaths.length - 1) {
+                console.log(`尝试备选路径: ${tryPaths[currentPathIndex + 1]}`);
+                this.backgroundMusic.src = tryPaths[currentPathIndex + 1];
+                // 不需要再调用play()，因为更改src后会自动触发onerror事件
+            } else {
+                showNotification('音乐加载失败，请检查网络连接', 3000, '#ff0000');
+            }
+        };
+        
+        // 播放音乐
+        const playPromise = this.backgroundMusic.play();
+        
+        // 处理自动播放策略限制
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                console.log('自动播放被阻止:', error);
+                // 显示提示用户点击屏幕启用音频
+                showNotification('点击屏幕启用音频', 3000);
+                
+                // 添加一次性点击事件来启用音频
+                const enableAudio = () => {
+                    this.backgroundMusic.play().catch(e => {
+                        console.error('播放音频失败:', e);
+                    });
+                    document.removeEventListener('click', enableAudio);
+                };
+                document.addEventListener('click', enableAudio);
+            });
+        }
+    },
+    
+    pauseMusic() {
+        if (this.backgroundMusic) {
+            this.backgroundMusic.pause();
+        }
+    },
+    
+    resumeMusic() {
+        if (this.backgroundMusic) {
+            this.backgroundMusic.play();
+        }
+    },
+    
+    saveSettings() {
+        // 保存音频设置到本地存储
+        const settings = {
+            musicEnabled: config.audio.music.enabled,
+            musicVolume: config.audio.music.volume
+        };
+        
+        localStorage.setItem('bugEscapePodAudioSettings', JSON.stringify(settings));
+    },
+    
+    loadSettings() {
+        // 从本地存储加载音频设置
+        const savedSettings = localStorage.getItem('bugEscapePodAudioSettings');
+        if (savedSettings) {
+            const settings = JSON.parse(savedSettings);
+            
+            config.audio.music.enabled = settings.musicEnabled;
+            config.audio.music.volume = settings.musicVolume;
+            
+            // 更新UI
+            document.getElementById('toggleMusic').classList.toggle('muted', !settings.musicEnabled);
+            document.getElementById('musicVolume').value = settings.musicVolume * 100;
+        }
+    }
+};
+
 // 修改更新难度显示函数
 function updateDifficultyDisplay() {
     const difficultyName = getDifficultyName(currentDifficulty);
@@ -475,8 +676,33 @@ function init() {
     playerClones = [];
     debugTarget = null;
     
+    // 默认开局解锁所有技能（但不清空已有技能点）
+    // 1. 获取所有技能ID
+    const allSkills = ['asyncDefense', 'garbageCollector', 'debugger', 'codeOptimization', 'multiThreading', 'refactoring'];
+    
+    // 2. 解锁所有技能
+    unlockedSkills = [...allSkills];
+    
+    // 3. 只有第一次游戏开始时才初始化技能点为0
+    // 检查是否有保存的技能点
+    const savedSkillPoints = localStorage.getItem('skillPoints');
+    if (savedSkillPoints === null) {
+        skillPoints = 0;
+    } else {
+        // 这里不做修改，保留之前的技能点
+        skillPoints = parseInt(savedSkillPoints);
+    }
+    
+    // 4. 保存到本地存储
+    localStorage.setItem('unlockedSkills', JSON.stringify(unlockedSkills));
+    localStorage.setItem('skillPoints', skillPoints);
+    
+    // 5. 更新状态面板和技能树显示
+    updateStatusPanel();
+    updateSkillTreeDisplay();
+    
     // 开始游戏循环
-    requestAnimationFrame(gameLoop);
+    gameLoop();
 }
 
 // 修改生成错误/Bug的函数
@@ -949,6 +1175,8 @@ function update() {
                         return false;
                     }
                     
+                    // 播放碰撞音效
+                    // audioSystem.playSound('hit');
                     gameOver();
                     return false;
                 }
@@ -959,6 +1187,8 @@ function update() {
                     const distanceToClone = Math.hypot(bullet.x - clone.x, bullet.y - clone.y);
                     if (distanceToClone < bullet.radius + clone.size/2) {
                         hitClone = true;
+                        // 播放碰撞音效
+                        // audioSystem.playSound('hit');
                         showNotification('分身吸收了伤害!');
                         return false;
                     }
@@ -1643,6 +1873,10 @@ function draw() {
         ctx.beginPath();
         ctx.arc(player.x, player.y, player.size * 1.2 + 5 * Math.sin(Date.now() * 0.005), 0, Math.PI * 2);
         ctx.stroke();
+        
+        // 添加倒计时钟表显示
+        const remainingTime = Math.ceil((playerEffects.shield - Date.now()) / 1000);
+        drawCountdownClock(player.x, player.y - player.size * 2, remainingTime, '#00ff00', '代码审查');
     }
 
     if (playerEffects.slowTime > 0) {
@@ -1684,7 +1918,7 @@ function draw() {
     }
     
     if (playerEffects.debugMode > 0) {
-        const debugOpacity = ((playerEffects.debugMode - Date.now()) / config.powerUpTypes.debugMode.duration);
+        const debugOpacity = ((playerEffects.debugMode - Date.now()) / 7000); // 7秒调试模式
         
         // 创建网格背景效果
         ctx.fillStyle = `rgba(255, 68, 255, ${debugOpacity * 0.05})`;
@@ -1747,7 +1981,11 @@ function draw() {
         ctx.fillStyle = '#f7df1e';
         ctx.font = 'bold 14px Arial';
         ctx.textAlign = 'center';
-        ctx.fillText('async/await', player.x, player.y - player.size * 1.5);
+        ctx.fillText('async/await', player.x, player.y + player.size * 2);
+        
+        // 添加倒计时钟表显示
+        const remainingTime = Math.ceil((playerEffects.asyncDefense - Date.now()) / 1000);
+        drawCountdownClock(player.x, player.y - player.size * 2, remainingTime, '#f7df1e', '异步防御');
     }
 
     // 更新状态面板
@@ -2030,11 +2268,9 @@ function hexToRgb(hex) {
 
 // 游戏主循环
 function gameLoop() {
-    if (!isPaused) {
+    if (!isGameOver) {
         update();
         draw();
-    }
-    if (!isGameOver) {
         requestAnimationFrame(gameLoop);
     }
 }
@@ -2056,6 +2292,9 @@ function gameOver() {
     if (currentScore > highScore) {
         localStorage.setItem('highScore', currentScore);
     }
+    
+    // 保存当前技能点到本地存储，确保重启时技能点不会丢失
+    localStorage.setItem('skillPoints', skillPoints);
     
     // 隐藏调试面板
     debugPanel.style.display = 'none';
@@ -2155,6 +2394,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // 初始应用难度颜色
     updateDifficultyDisplay();
+    
+    // 初始化音频系统，只在页面加载时执行一次
+    audioSystem.init();
     
     // 绑定介绍窗口的继续按钮事件
     introButton.addEventListener('click', () => {
@@ -2954,9 +3196,13 @@ window.startFixingBug = startFixingBug;
 // 添加道具碰撞检测函数
 function checkPowerUpCollision() {
     const currentTime = Date.now();
+    let collision = false;
+    
     powerUps = powerUps.filter(powerUp => {
         const distance = Math.hypot(powerUp.x - player.x, powerUp.y - player.y);
         if (distance < powerUp.radius + player.size/2) {
+            collision = true;
+            
             switch(powerUp.type) {
                 case 'shield':
                     playerEffects.shield = currentTime + config.powerUpTypes.shield.duration;
@@ -2998,6 +3244,11 @@ function checkPowerUpCollision() {
         }
         return true;
     });
+    
+    // 检测碰撞
+    if (collision) {
+        // 碰撞处理
+    }
 }
 
 // 在文件末尾添加无敌状态效果函数
@@ -3082,4 +3333,69 @@ function createInvincibilityEffect() {
     
     // 启动能量波纹效果
     createEnergyRipple();
+}
+
+// 添加绘制倒计时钟表的函数
+function drawCountdownClock(x, y, seconds, color, label) {
+    const clockRadius = 15;
+    const clockCenterX = x;
+    const clockCenterY = y;
+    
+    // 绘制钟表背景
+    ctx.beginPath();
+    ctx.arc(clockCenterX, clockCenterY, clockRadius, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+    ctx.fill();
+    
+    // 绘制钟表边框
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = color;
+    ctx.stroke();
+    
+    // 绘制钟表中心点
+    ctx.beginPath();
+    ctx.arc(clockCenterX, clockCenterY, 2, 0, Math.PI * 2);
+    ctx.fillStyle = color;
+    ctx.fill();
+    
+    // 绘制钟表刻度
+    for (let i = 0; i < 12; i++) {
+        const angle = i * Math.PI / 6;
+        const startX = clockCenterX + (clockRadius - 3) * Math.cos(angle);
+        const startY = clockCenterY + (clockRadius - 3) * Math.sin(angle);
+        const endX = clockCenterX + clockRadius * Math.cos(angle);
+        const endY = clockCenterY + clockRadius * Math.sin(angle);
+        
+        ctx.beginPath();
+        ctx.moveTo(startX, startY);
+        ctx.lineTo(endX, endY);
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = color;
+        ctx.stroke();
+    }
+    
+    // 绘制倒计时指针（根据剩余秒数确定角度）
+    const maxDuration = label === '代码审查' ? 5 : 3; // 根据不同效果设置最大持续时间
+    const remainingRatio = seconds / maxDuration;
+    const angle = (1 - remainingRatio) * Math.PI * 2 - Math.PI / 2;
+    
+    ctx.beginPath();
+    ctx.moveTo(clockCenterX, clockCenterY);
+    ctx.lineTo(
+        clockCenterX + clockRadius * 0.8 * Math.cos(angle),
+        clockCenterY + clockRadius * 0.8 * Math.sin(angle)
+    );
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = color;
+    ctx.stroke();
+    
+    // 绘制剩余秒数
+    ctx.font = 'bold 14px Arial';
+    ctx.fillStyle = color;
+    ctx.textAlign = 'center';
+    ctx.fillText(`${seconds}s`, clockCenterX, clockCenterY + clockRadius + 15);
+    
+    // 绘制效果名称
+    ctx.font = '12px Arial';
+    ctx.fillText(label, clockCenterX, clockCenterY - clockRadius - 5);
 }
