@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>盒模型</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        /*display 可以去切换盒子的能力
+          box-sizing 可以设定盒子的计算方案
+          默认值是content-box  w x h 设定的是内容的大小   标准盒模型
+          border-box  w x h 设定的是盒子本身的大小        怪异盒（IE）模型
+        */
+        .box{
+            width: 100px;
+            height: 200px;
+            background-color: red;
+            margin: 10px;
+            padding:5px;
+            border: 2px solid blue;
+            overflow: hidden;
+            
+        }
+        .flex{
+            display: flex;
+        }
+        main{
+            flex:1;
+            position: relative;
+        }
+        .inner{
+            width: 100px;
+            height: 100px;
+            background-color: green;
+            position: absolute;
+            z-index:0;
+            top: 0;
+            left: 0;
+            border-radius: 50%; /*脱离了文档流*/
+            
+        }
+        body{
+            display: flex;
+            flex-direction: column;
+            height: 100vh;/*flex:1,占据剩下的空间，但是父元素不设置高度，会出现滚动条*/
+        }
+        .container{
+            flex:1;
+            overflow:scroll;
+        }
+        header,footer{
+            height: 44px; /*iphone标准为44px*/
+            background-color: grey;
+            text-align: center;
+        }
+        footer{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .more{
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: yellow;
+            top:50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+
+        }
+    </style>
+</head>
+<body>
+    
+    <header>
+        <h1>盒模型</h1>
+    </header>
+
+<div class="container">
+<div class="row flex">
+
+<aside class="box">  </aside>
+
+<main class="box">
+    <div class="inner"></div>  
+    <div style="position:absolute; z-index:0; width : 100px;height: 100px;background-color: black;">1+2+3</div>
+    <div style="position:absolute;  width: 100px;height: 100px;background-color: black;">1+2+3</div>
+</main>
+<!-- absolute脱离文档流，每创建一个absolute，就会多一层文档流 z-index决定的层级 -->
+<aside class="box">  </aside>
+
+</div>
+<div class="row flex">
+<aside class="box">  </aside>
+
+<main class="box">
+    <div class="inner"></div>  
+    <div style="width: 100px;height: 100px;background-color: black;">1+2+3</div>
+    <div style="width: 100px;height: 100px;background-color: black;">1+2+3</div>
+</main>
+
+<aside class="box">  </aside>
+</div>
+<div class="row flex">
+<aside class="box">  </aside>
+
+<main class="box">
+    <div class="inner"></div>  
+    <div style="width: 100px;height: 100px;background-color: black;">1+2+3</div>
+    <div style="width: 100px;height: 100px;background-color: black;">1+2+3</div>
+</main>
+
+<aside class="box">  </aside>
+</div>
+
+<div class="row flex">
+<aside class="box">  </aside>
+
+<main class="box">
+    <div class="inner"></div>  
+    <div style="width: 100px;height: 100px;background-color: black;">1+2+3</div>
+    <div style="width: 100px;height: 100px;background-color: black;">1+2+3</div>
+</main>
+
+<aside class="box">  </aside>
+</div>
+
+
+<div class="row flex">
+<aside class="box">  </aside>
+
+<main class="box">
+    <div class="inner"></div>  
+    <div style="width: 100px;height: 100px;background-color: black;">1+2+3</div>
+    <div style="width: 100px;height: 100px;background-color: black;">1+2+3</div>
+</main>
+
+<aside class="box">  </aside>
+</div>
+
+</div>
+<footer>
+    <p>盒模型</p>
+</footer>
+<div class="more">
+
+</div>
+    <script>
+
+    </script>
+</body>
+</html>
