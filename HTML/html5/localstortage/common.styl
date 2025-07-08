@@ -1,0 +1,62 @@
+$background_color = rgba(36, 240, 247, 0.5)
+
+html
+    box-sizing border-box
+    min-height 100vh
+    display flex
+    justify-content center
+    align-items center
+    text-align center
+    background url('http://wes.io/hx9M/oh-la-la.jpg') center no-repeat
+    // center : 如果图片>显示空间 则尽量显示图片中央
+    // no-repeat：如果图片<显示空间，决定是否重复图片填满空间
+    background-size cover
+    
+
+    
+
+    
+*
+    box-sizing border-box
+
+.wrapper
+    padding 20px
+    max-width 350px
+    background-color $background_color
+    box-shadow -10px -10px 10px 10px rgba(0,0,0,1)
+    h2
+        text-align center
+        margin 0
+        font-weight 200
+    /* 水平偏移量 竖直偏移量 模糊半径 扩散半径 */
+  /* 水平：数值为正时，向右偏移，数值为负时，向左偏移 */
+  /* 竖直：数值为正时，向下偏移，数值为负时，向上偏移 */
+  /* 模糊半径：数值越大，越模糊（类似越来越透明） */
+  /* 扩散半径：数值越大，越扩散 ，联合偏移量来调整位置*/
+
+
+
+
+.plates
+    margin 0
+    padding 0
+    text-align left
+    list-style none
+    li
+        border-bottom 1px solid rgba(0,0,0,0.2)
+        padding 10px 0 10px 0
+        display flex
+    label 
+        flex 1
+        cursor pointer 
+    input 
+        display none
+.add-items 
+    margin-top 20px
+    input
+        padding 10px
+        outline 0
+        border 1px solid rgba(0,0,0,0.1)
+
+           
+
