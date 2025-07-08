@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var a = {
+            name:'prince',
+            fn:function(a,b){
+                console.log(this.name);
+                console.log(a,b);
+                
+                
+            }
+        }
+       // a.fn(1,2);
+       const b = a.fn;
+        //b(1,2);
+        b.call(a,1,2);
+        b.apply(a,[1,2]);
+        // bind 可以做到延迟执行， bind返回了一个新的函数，而call和apply是立即执行
+        const func2 = b.bind(a,1,2);
+        func2();
+    </script>
+</body>
+</html>

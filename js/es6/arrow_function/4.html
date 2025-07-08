@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Call Apply Bind 霸道一些,指定函数内部的this</title>
+</head>
+<body>
+    
+
+
+    <script>
+        var a = {
+            name:'reyna',
+            func1:function(){
+                console.log(this.name);
+            },
+            func2:function(){
+                setTimeout(function(){
+                    // 假如this可以被指定？
+                    this.func1();
+                }.call(a),1000) // call谁，就把this指定成谁
+            }
+            // func2:function(){
+            //     setTimeout(()=>{
+            //         // 不是this丢失，箭头函数连this都没有
+            //         //其根据作用域链寻找
+            //         this.func1();
+            //     },1000)
+            // }
+            // func2:function(){
+            //     // this的丢失 作用域链
+            //     console.log(this);
+            //     var that = this;
+            //     setTimeout(function(){
+            //         that.func1();
+            //     },1000)
+            // }
+        }
+        a.func2();
+    </script>
+</body>
+</html>
