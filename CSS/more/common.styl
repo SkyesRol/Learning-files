@@ -1,0 +1,48 @@
+.container 
+    max-width 600px
+    
+    padding 20px
+    font-family Arial,serif
+    
+    // top 50%
+    // left 50%
+    // transform: translate(-50%,-50%)
+    margin 0 auto
+    h1
+        text-align center
+    p
+        line-height 1.6
+        // 1.6倍文字大小作为行高 ，文字大小继承自html，初始默认为16px
+    .more
+        display inline-block
+        color white
+        background-color #007bff
+        text-decoration none
+        position relative
+        transition all .3s ease
+        &::before
+            content ''
+            position absolute
+            bottom: 0
+            left 0
+            width 100%
+            height 2px
+            background-color red
+            transform: scaleX(0)
+            transform-origin bottom right
+            transition transform .3s ease
+        &:hover::before
+            transform: scaleX(1)
+            transform-origin bottom left
+
+        
+
+
+
+
+
+
+
+
+
+
