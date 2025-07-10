@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BFC</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .container{
+            background-color: green;
+            overflow: hidden; /*在html这个最大的bfc上又创建了一个bfc元素*/
+        }
+        .box{
+            height: 100px;
+            width: 100px;
+            margin: 100px;
+            background-color: red;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+    </div>
+    <div>12323123123，哦哦哦哦哦哦88888888888</div>
+</body>
+</html>
