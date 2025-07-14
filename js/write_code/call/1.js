@@ -25,5 +25,6 @@ const bind = greeting.bind(lj,18,'Hangzhou');
 console.log(bind);
 setTimeout(()=>{bind()},1000)
 // console.log(greeting.call(null));
+// Node.js 的全局对象是 global，但 var 声明的变量不会自动挂载到 global
 // console.log(greeting.call(undefined));
 // console.log(greeting.call());
