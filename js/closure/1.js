@@ -15,7 +15,7 @@ function curry(fn){
         // 返回函数
         // ...args 所有的参数 自由变量
         let judge = (...args)=>{
-            // reset 运算符
+            // rest 运算符
             // 任何地方都可以访问到定义时候的fn
             
                 if(args.length==fn.length){

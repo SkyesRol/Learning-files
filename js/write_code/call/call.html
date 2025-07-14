@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    function greeting(...args){
+    //console.log(args,arguments[0],arguments[1]);
+    // 展开运算符
+    //console.log([...arguments] ,Array.from(arguments));
+    
+    
+    return `hello, I am ${this.name}`;
+}
+        //console.log(Function.prototype,Function.__proto__);
+        // JS中任意函数都是Function对象，是其类型实例，可像其他对象有属性和方法
+        
+        
+        // ...args rest 运算符
+        Function.prototype.myCall = function(context,...args){
+                // null 和 object二进制前三位存储为0，所以判断不准
+                if(context == null || context == undefined){
+                    context = window;
+                }
+                // this 先绑定到了greeting
+                //console.log(this);
+                
+                // typeof会对函数判断的很准
+                if(typeof this !=='function'){
+                    throw new TypeError('Function.prototype.myCall called on non-function')
+                }
+                // 函数要运行
+                // es6 新数据类型
+                const fnKey = Symbol('fn');
+                // this运行 内部this->context
+                // this 是 context 上面的方法的时候
+                // 不要覆盖 context上的属性
+                context[fnKey] = this;
+                console.log(context);
+                // 收集参数
+                //console.log(args);
+                // js对象的动态性
+                const result = context[fnKey](...args);
+                
+                // context被污染了
+                delete context[fnKey];
+                //console.log('result:  '+result);
+                
+                return result;
+                
+        }
+        var obj ={
+            name:'Skye',
+            fn:function(){}
+        }
+        console.log(greeting.myCall(obj,1,2,3));
+         
+    </script>
+</body>
+</html>
