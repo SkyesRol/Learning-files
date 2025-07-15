@@ -27,10 +27,18 @@
         data-original 中
         自定义属性 data- 数据属性
         original 原来
-    
-
-
-
+    - 性能问题
+        - 解决了性能问题（加载图片太多）  静态页面渲染问题
+        - 产生了性能问题 onScroll(事件触发太频繁)  JS的问题
+        - forEach imgs
+        - getBoundingClientRect 触发回流
+- 防抖/节流
+- InterSectionObserver？ 相对于onscroll getBoundingClientRect 在性能上有什么优势？请讲下原理
+    - observer 观察 异步的，不是同步的 浏览器的后台
+    - intersection 交叉 和可视区交叉
+    - 不再需要onscroll 不需要节流
+    - 介绍下InterSectionObserver？是html5的新特性吗？
+        - 其为现代浏览器API，可监听元素于视口交叉状态，用于懒加载、无限滚动等场景，其并非HTML5特性，而是独立的浏览器API
 
 
 
