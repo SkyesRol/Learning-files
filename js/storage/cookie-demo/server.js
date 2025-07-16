@@ -75,6 +75,22 @@ const server = http.createServer((req,res)=>{
             }
         )
     }
+
+    if(req.method == 'POST' && req.url == '/login'){
+        // 用户名和密码的校验
+        // 写入响应头
+        res.writeHead(200,{
+            'Set-Cookie':"username=admin;",
+            'Content-Type':'application/json'
+        })
+        res.end(
+            JSON.stringify({
+                success:true,
+                msg:'登陆成功'
+            })
+
+        );
+    }
 })
 
 server.listen(8080);
