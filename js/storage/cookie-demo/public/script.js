@@ -27,3 +27,23 @@ loginForm.addEventListener('submit',async(event)=>{
     }
     
 })  
+
+document.addEventListener('DOMContentLoaded',async()=>{
+    // 验证是否登录？
+    try{
+        const response = await fetch('/check-login')
+        const data =await response.json();
+        //console.log(data);
+       if (data.loggedIn) {
+        document.getElementById('loginSection').style.display = 'none';
+        document.getElementById('welcomeSection').style.display = 'block';
+        document.getElementById('userDisplay').textContent = data.username;
+      } else {
+        document.getElementById('loginSection').style.display = 'block';
+        document.getElementById('welcomeSection').style.display = 'none';
+      }
+        
+    }catch(err){
+
+    }
+})
