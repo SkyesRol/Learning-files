@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #menu {
+            display: none;
+            /*为none时，会被加载进dom树和cssom树，但即使是第一次加载，Render Tree也不会渲染它，不会参与页面绘制*/
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            padding: 20px;
+            background: #f2f2f2;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="toggleBtn">Toggle Menu</div>
+    <div id="menu">
+        <p>Menu Context</p>
+        <a href="https://www.bilibili.com" id="closeInside">Don't closed</a>
+    </div>
+
+
+
+    <script>
+        // 如何点击其他地方关闭一个元素？
+        const toggleBtn = document.getElementById('toggleBtn');
+        const menu = document.getElementById('menu');
+        const closeInside = document.getElementById('closeInside')
+        toggleBtn.addEventListener('click', function (event) {
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+            event.stopPropagation();
+        }) // addEventListener 由触发其的元素决定，像this一样，谁调用就绑定谁
+
+
+        document.addEventListener('click', function () {
+            menu.style.display = 'none';
+        })
+        closeInside.addEventListener('click', function (e) {
+            e.stopPropagation(); // 不加就触发document的none，点击完毕内容就关闭
+            alert('btn clicked')
+        })
+    </script>
+</body>
+
+</html>
