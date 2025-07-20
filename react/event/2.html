@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事件委托</title>
+</head>
+
+<body>
+    <ul id="myList">
+        <li>item1</li>
+        <li>item2</li>
+        <li>item3</li>
+        <li>item4</li>
+    </ul>
+
+
+
+    <script>
+        // 点击li item？
+        // 一次性给所有li添加事件？
+        const lis = document.querySelectorAll('ul#myList li')
+        // 不可以给nodeList 一次性声明
+        // 技术循环对cpu友好，但很机械，可读性不如语义化 for of
+        // for(let i = 0 ;i<lis.length;i++)
+
+
+        for (let item of lis) {  // 更语义化
+            // 向浏览器 event loop 注册了一堆事件 监听器？
+            // 如果li很多，则性能会变差
+            item.addEventListener('click', function (event) {
+                console.log(event.target.innerText);
+
+            })
+        }
+
+
+
+        document.getElementById('myList')
+            .addEventListener('click', function (e) {
+                console.log(e.target.innerHTML);
+
+            })
+        // event.target 目标阶段 事件发生在的元素，而不是事件监听的元素
+        // 委托给父元素，react把这个性能优化到机制，#root挂载点
+    </script>
+</body>
+
+</html>
