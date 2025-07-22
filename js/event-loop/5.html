@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+
+
+    <script>
+        console.log('同步');
+        // 批量更新
+        // dom树 cssom树 layout树 图层合并
+        // queueMicroTask 在批量更新后，渲染前对dom进行修改
+        queueMicrotask(() => {
+            // DOM更新了，但不是渲染完了
+            // 一个元素的高度  offsetHeight scrollTop getBoundingClientRect()
+            // 读取这个属性时会立即让这个元素进行重绘重排
+            // 立即重绘重排 耗性能
+            console.log('微任务： queueMicrotask');
+
+        })
+        console.log('同步结束');
+
+    </script>
+</body>
+
+</html>

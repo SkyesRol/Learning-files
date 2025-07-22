@@ -4,52 +4,22 @@ import {      // 响应式状态hooks
     useState  // react 函数式编程 好用的以use 开头的函数
     , useEffect
 } from "react"
+import { useTodos } from "@/hooks/useTodos"
 const Todos = () => {
     // 数据流管理
     // 父组件持有管理数据 props 传递数据 子组件通过props 自定义函数
     // 通知父组件
-
-    const [todos, setTodos] = useState([
-        {
-            id: 1,
-            text: 'Kay/O',
-            isComplete: false
-        },
-        {
-            id: 2,
-            text: 'Fade',
-            isComplete: false
-        }
+    const { todos, addTodo, onToggle, onDelete } = useTodos();
 
 
 
-    ])
 
-    // 新增Todo
-    const addTodo = (text) => {
-        setTodos([
-            ...todos,
-            {
-                id: Date.now(),
-                text,
-                isComplete: false,
-            }
-        ])
-
-
-    }
-    const onToggle = (id) => {
-        // todos 数组找到id isComplete !isComplete
-        // 响应式？ 返回一个全新的todos
-        // for循环找到id，修改complete，逻辑上可以，但会失败，JSX期待返回一个全新的数组/对象
-        setTodos(todos.map(todo => todo.id === id ?
-            { ...todo, isComplete: !todo.isComplete }
-            : todo
-        ))
-    }
-    const onDelete = (id) => {
-        setTodos(todos.filter(todo => todo.id !== id))
-    }
+    useEffect(() => {
+        //console.log('...........');
+        localStorage.setItem('todos', JSON.stringify(todos))
+        // 返回了其toString()，结果为[object Object],[object Object]
+        // 所以要stringify()
+    }, [todos])
 
     return (
 

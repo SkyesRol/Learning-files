@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>防抖节流</title>
+</head>
+
+<body>
+    <input type="text" id="inputA">
+
+    <input type="text" id="inputB">
+    <br>
+    <br>
+
+    <script>
+        let inputA = document.getElementById('inputA');
+        let inputB = document.getElementById('inputB')
+
+
+
+        // google suggest ajax api call
+        function ajax(content) {
+            console.log('ajax request' + content);
+
+        }
+        // 函数的参数也是函数，高阶函数
+        // 通用函数 抽象 fn任何函数减少执行频率
+        function debounce(fn, delay) {
+            // 定时器会返回id的
+            // fn自由变量
+            // fn对象
+            // let id = null;
+            return function (args) {
+                if (fn.id) {
+                    clearTimeout(fn.id);
+                }
+                fn.id = setTimeout(function () {
+                    fn(args)
+                }, delay)
+            }
+        }
+
+        // 高阶函数 耗时函数-》闭包自由变量
+        // 返回一个新函数 频繁执行
+        let debounceAjax = debounce(ajax, 200)
+
+
+
+        inputA.addEventListener('keyup', function (event) {
+            // 如果执行的是耗时性的任务
+            // google suggest 搜索建议 （数据库查询）逐渐被LLM取代
+            // 图片懒加载 scroll + getBoundingClientRect
+            // 触发频率太高
+            //console.log(event.target.value);
+            // 没有必要触发频率如此高，用户意图，以单词为单位
+            ajax(event.target.value)
+        })
+
+        inputB.addEventListener('keyup', function (event) {
+            debounceAjax(event.target.value)
+        })
+    </script>
+</body>
+
+</html>

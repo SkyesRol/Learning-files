@@ -56,9 +56,60 @@
         vue是双向绑定？？？
 
 
+- 本地存储
+    - localStorage html5
+        key:value 存储
+        setItem(key,value)
+        getItem(key)
+        removeItem(key)
+    - BOM Browser Object Model
+    - DOM Document Object Model
+    - localStorage 和 cookie 有什么异同？
+        - http 无状态，head 带上cookie才能识别身份
+        - cookie太大，会影响http的传输性能 4KB
+        - cookie 前端，后端都可以设置
+            过期时间
+            domain 隔离，仅在某一个网站上存储
+        - localStorage 只在浏览器端
+                也拥有domain
+                5MB
+            - 为什么只有5MB？ 再大其实也可以
+        - IndexDB 数据库 能存GB级别
 
 
+## 自定义hooks
+- 
+    - 自己定义的
+    - use开头的
+    - 某一项功能
+        并非简单函数的封装
+        自定义hooks可能会包含：
+            响应式状态
+            effect
+            todos
 
+- 自定义hooks
+    - 现代react app 的架构一部分
+    - hooks目录
+        自定义hooks
+        框架common部分
+        业务定制 ahooks
+    - use开头
+        state，effect 逻辑封装复用
+    - return
+        todos
+        toggle
+        addTodos
+        deleteTodos
+        函数式编程思想的体现
+    - 组件更好的聚焦于模板渲染
+    - 全面hooks函数式编程
+
+
+- 两个遗憾
+    - ../../ 路径 18弯，不好找
+            vite 配置 alias 短路径
+    - toggle、delete  跨越多个组件报告，很麻烦，——————**用useContext**
 
 
 
