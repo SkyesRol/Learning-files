@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>闭包-单例</title>
+</head>
+
+<body>
+
+
+
+    <script>
+        // 回到函数，闭包
+        // 自由变量 唯一的实例
+        function StorageBase() {
+
+        }
+        StorageBase.prototype.getItem = function (key) {
+            // 利用这个方法会直接调用函数，而localStorage.getItem(key)没有返回值
+            // 所以将 return 去掉也不会有什么影响
+            return localStorage.getItem(key)
+        }
+        StorageBase.prototype.setItem = function (key, value) {
+            localStorage.setItem(key, value)
+        }
+        const Storage = (function () {
+            let instance = null;
+            return function () {
+                if (!instance) {
+                    instance = new StorageBase();
+                }
+                return instance
+            }
+        })()
+        const Storage1 = new Storage();
+        const Storage2 = new Storage();
+        console.log(Storage1 === Storage2);
+        Storage1.setItem('Valorant', 'Fade')
+        console.log(Storage2.getItem('Valorant'))
+    </script>
+</body>
+
+</html>
