@@ -23,13 +23,17 @@ function App() {
 
   // }, [])
   const RepoList = lazy(() => import('./pages/RepoList'))
-
+  const RepoDetail = lazy(() => import('./pages/RepoDetail'))
+  const Home = lazy(() => import('./pages/Home'))
+  const NotFound = lazy(() => import('./pages/NotFound'))
   return (
     <>
       <Suspense fallback={<Loading />}>
         <Routes>
+          <Route path='/' element={<Home />} />
           <Route path='/users/:id/repos' element={<RepoList />} />
-          <Route path='*' element={<Navigate to='/users/SkyesRol/repos' />} />
+          <Route path='/users/:id/repos/:repoId' element={<RepoDetail />} />
+          <Route path='*' element={<NotFound />} />
         </Routes>
       </Suspense>
     </>
