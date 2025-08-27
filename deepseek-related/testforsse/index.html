@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSE with LLM Example</title>
+</head>
+
+<body>
+    <h1>Server-Sent Events with LLM Example</h1>
+    <div id="reply"></div>
+    <script>
+        const eventSource = new EventSource('/stream');
+        const replyDiv = document.querySelector('#reply');
+
+        // 处理普通消息
+        eventSource.onmessage = function (event) {
+            const data = JSON.parse(event.data);
+
+
+            if (data.error) {
+                console.error('Error from server:', data.error);
+            } else {
+                replyDiv.innerHTML += data.content;
+            }
+        };
+
+        // 处理结束事件
+        eventSource.addEventListener('end', function () {
+            console.log('Stream ended normally');
+            replyDiv.innerHTML += '<p><strong>对话结束</strong></p>';
+            eventSource.close();
+        });
+
+        // 处理错误事件
+        eventSource.addEventListener('error', function (event) {
+            console.error('Error event received:', event);
+            replyDiv.innerHTML += '<p style="color:red;"><strong>发生错误: ' + event.data + '</strong></p>';
+            eventSource.close();
+        });
+
+        // 处理连接错误
+        eventSource.onerror = function (error) {
+            console.error('EventSource failed:', error);
+            eventSource.close();
+        };
+    </script>
+</body>
+
+</html>

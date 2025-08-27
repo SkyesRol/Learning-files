@@ -4,7 +4,9 @@
 // 长度限定、类型
 // 可以动态扩容
 const arr = [1, 2, 3, 4, 5]
-// fill 属性 填充
+console.log(arr);
+
+//fill 属性 填充
 const arr2 = new Array(5).fill(undefined)
 console.log(arr2);
 arr2[8] = 22  // 这么赋值后，数组长度边长，5-8之间为empty 没有key

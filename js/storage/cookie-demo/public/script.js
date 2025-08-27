@@ -2,48 +2,47 @@
 
 //console.log('智能前端，智能后端，qh笨蛋');
 const loginForm = document.getElementById('loginForm');
-loginForm.addEventListener('submit',async(event)=>{
+loginForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     const username = document.getElementById('username').value.trim();
     const password = document.getElementById('password').value.trim();
-    console.log(username,password);
-    try{
-        const response = await fetch('/login',{
-            method:'POST',
-            headers:{
-                'Content-Type':'application/json'
+    console.log(username, password);
+    try {
+        const response = await fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
             },
-            body:JSON.stringify({
+            body: JSON.stringify({
                 username,
                 password
             })
         })
         const data = await response.json();
         console.log(data);
-        
-    } catch(err){
-            console.log('Login Error!');
-            
-    }
-    
-})  
 
-document.addEventListener('DOMContentLoaded',async()=>{
+    } catch (err) {
+        console.log('Login Error!');
+    }
+
+})
+
+document.addEventListener('DOMContentLoaded', async () => {
     // 验证是否登录？
-    try{
+    try {
         const response = await fetch('/check-login')
-        const data =await response.json();
+        const data = await response.json();
         //console.log(data);
-       if (data.loggedIn) {
-        document.getElementById('loginSection').style.display = 'none';
-        document.getElementById('welcomeSection').style.display = 'block';
-        document.getElementById('userDisplay').textContent = data.username;
-      } else {
-        document.getElementById('loginSection').style.display = 'block';
-        document.getElementById('welcomeSection').style.display = 'none';
-      }
-        
-    }catch(err){
+        if (data.loggedIn) {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('welcomeSection').style.display = 'block';
+            document.getElementById('userDisplay').textContent = data.username;
+        } else {
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('welcomeSection').style.display = 'none';
+        }
+
+    } catch (err) {
 
     }
 })

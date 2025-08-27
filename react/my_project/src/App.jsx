@@ -1,14 +1,43 @@
-import { useState } from 'react'
-
 import './App.css'
-
+import {
+  Suspense,
+  lazy
+} from 'react';
+import {
+  Routes,
+  Route,
+  Navigate
+} from 'react-router-dom'
+import MainLayout from '@/components/MainLayout'
+import BlankLayout from '@/components/BlankLayout'
+const Home = lazy(() => import('@/pages/Home'))
+const Search = lazy(() => import('@/pages/Search'))
+const Trip = lazy(() => import('@/pages/Trip'))
+const Account = lazy(() => import('@/pages/Account'))
+const Collection = lazy(() => import('@/pages/Collection'))
+const Login = lazy(() => import('@/pages/Login'))
 function App() {
-  const [count, setCount] = useState(0)
+
 
   return (
     <>
-      <div style={{ width: '2.6667rem', height: '3.46667rem', backgroundColor: 'aquamarine' }}></div>
-      <div className="box"></div>
+      <Suspense fallback={<div>Loading......</div>}>
+        {/* 带有tabbar的Layout */}
+        <Routes>
+          <Route element={<MainLayout />}>
+            <Route path='/' element={
+              <Navigate to='/home' />
+            } />
+            <Route path='/home' element={<Home />} />
+          </Route>
+        </Routes>
+        {/* 空的Layout */}
+        <Routes >
+          <Route element={<BlankLayout />}>
+            <Route path='/search' element={<Search />} />
+          </Route>
+        </Routes>
+      </Suspense>
     </>
   )
 }

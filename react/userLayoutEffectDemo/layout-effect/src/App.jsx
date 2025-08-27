@@ -22,24 +22,24 @@ import './App.css'
 //   )
 // }
 
-// function App() {
-//   const [content, setContent] = useState('Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.')
-//   const ref = useRef();
-//   // useEffect(() => {
-//   //   setContent('天地玄黄宇宙洪荒日月盈昃辰宿列张寒来暑往秋收冬藏闰余成岁律吕调阳。天地玄黄宇宙洪荒日月盈昃辰宿列张寒来暑往秋收冬藏闰余成岁律吕调阳。天地玄黄宇宙洪荒日月盈昃辰宿列张寒来暑往秋收冬藏闰余成岁律吕调阳。')
-//   //   ref.current.style.height = '200px';
-//   // }, [])
+function App1() {
+  const [content, setContent] = useState('Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit.')
+  const ref = useRef();
+  // useEffect(() => {
+  //   setContent('天地玄黄宇宙洪荒日月盈昃辰宿列张寒来暑往秋收冬藏闰余成岁律吕调阳。天地玄黄宇宙洪荒日月盈昃辰宿列张寒来暑往秋收冬藏闰余成岁律吕调阳。天地玄黄宇宙洪荒日月盈昃辰宿列张寒来暑往秋收冬藏闰余成岁律吕调阳。')
+  //   ref.current.style.height = '200px';
+  // }, [])
 
-//   // 触发两次重排，第一次重排是挂载，第二次是useEffect
-//   useLayoutEffect(() => {
-//     // 阻塞渲染 有种同步的感觉，但它是异步
-//     setContent('天地玄黄宇宙洪荒日月盈昃辰宿列张寒来暑往秋收冬藏闰余成岁律吕调阳。天地玄黄宇宙洪荒日月盈昃辰宿列张寒来暑往秋收冬藏闰余成岁律吕调阳。天地玄黄宇宙洪荒日月盈昃辰宿列张寒来暑往秋收冬藏闰余成岁律吕调阳。')
-//     ref.current.style.height = '200px';
-//   }, [])
-//   return (
-//     <div ref={ref} style={{ height: '50px', background: 'lightblue' }}>{content}</div>
-//   )
-// }
+  // 触发两次重排，第一次重排是挂载，第二次是useEffect
+  useLayoutEffect(() => {
+    // 阻塞渲染 有种同步的感觉，但它是异步
+    setContent('天地玄黄宇宙洪荒日月盈昃辰宿列张寒来暑往秋收冬藏闰余成岁律吕调阳。天地玄黄宇宙洪荒日月盈昃辰宿列张寒来暑往秋收冬藏闰余成岁律吕调阳。天地玄黄宇宙洪荒日月盈昃辰宿列张寒来暑往秋收冬藏闰余成岁律吕调阳。')
+    ref.current.style.height = '200px';
+  }, [])
+  return (
+    <div ref={ref} style={{ height: '50px', background: 'lightblue' }}>{content}</div>
+  )
+}
 
 
 
@@ -67,6 +67,7 @@ function App() {
   return (
     <>
       <Modal />
+      <App1 />
     </>
   )
 }

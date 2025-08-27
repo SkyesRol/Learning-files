@@ -105,5 +105,24 @@ Readme.md 很重要 方便面试官
     - 如何自动转换单位？
         - pnpm i -D postcss-pxtorem
         postcss + postcss-pxtorem
+        PostCSS是一个使用JS插件对于CSS进行处理的工具（CSS与编译器），
+        可以通过插件实现自动转换单位，比如px转rem
+        vite会自动读取postcss.config.js 将css文件编译 
+        例如 px => rem
 
-    ## git 提交规范
+## git 提交规范
+- 项目初始化
+## 功能模块
+- UI组件库
+    - react-vant 第三方组件库 70%的组件已经有了，不用写
+    - 选择一个适合业务的UI组件库 或者公司内部的组件库 
+
+- 配置路由以及懒加载
+    - 懒加载
+    - 路由守卫
+    - Layout组件
+        - 嵌套路由<Outlet /> 分组路由配置
+        - 网页有几个模板 Layout
+        - Route 不加path 对应的路由自动选择
+            - tabbar 模板
+            - blank 模板

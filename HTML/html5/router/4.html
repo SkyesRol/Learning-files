@@ -36,6 +36,15 @@
             console.log('pop state fired:', event.state);
             render(event.state?.path || location.pathname)
         })
+
+        window.onload = () => {
+            const path = window.location.pathname;
+            if (path === '/') {
+                navigate('/home'); // 默认导航到首页
+            } else {
+                render(path);
+            }
+        };
     </script>
 </body>
 

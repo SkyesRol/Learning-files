@@ -22,7 +22,9 @@ function App() {
     // 界面的更新合并为一次更新
     setCount(prev => prev + 1);
     setCount(prev => prev + 1);
+    console.log(count);
     setCount(prev => prev + 1);
+
 
   }
   return (

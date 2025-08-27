@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div style="height: 2000px;"></div>
+
+
+    <script>
+        window.onscroll = throttle(scrollHandle, 500)
+
+        function scrollHandle() {
+            var scrollTop = document.documentElement.scrollTop;
+            console.log('滚动条位置: ' + scrollTop);
+
+        }
+        function throttle(fn, delay) {
+            let state = true;
+            return function (...args) {
+                var context = this;
+                if (state === true) {
+                    fn.apply(context, ...args);
+                    state = false;
+                    setTimeout(() => {
+                        state = true;
+                    }, delay)
+                }
+            }
+
+        }
+    </script>
+</body>
+
+</html>

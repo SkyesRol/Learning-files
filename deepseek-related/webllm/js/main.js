@@ -1,4 +1,4 @@
-
+//import API_KEY from './.env.local'
 
 // document.addEventListener('DOMContentLoaded', function() {
 //   // 页面加载完成后执行的代码
@@ -43,50 +43,50 @@ const headers = {
   // 内容类型
   "Content-Type": "application/json",
   // 授权  Bearer 令牌（授权码前缀）
-  Authorization:`Bearer api-key`,
+  Authorization: `Bearer sk-0325f5f498f9445f98c80bc44a8616a7`,
   "deepseek-organization": "deepseek-ai",
 }
-  // 请求体
-  const payload={
-    
-    model:'deepseek-chat',
-    messages:[
-      // chat 三种方式
-      // system 系统角色  只会出现一次 设置系统的角色 就是System Prompt
-      // user 用户角色  content会从输入框中拿到这些词
-      // assistant 助手角色 
-      {
-        role:'system',
-        content:'你是一个非常有帮助的助手'
-      },
+// 请求体
+const payload = {
 
-      {
-        role:'user',
-        content:'Hello,u little cute LLM'
-      },
+  model: 'deepseek-chat',
+  messages: [
+    // chat 三种方式
+    // system 系统角色  只会出现一次 设置系统的角色 就是System Prompt
+    // user 用户角色  content会从输入框中拿到这些词
+    // assistant 助手角色 
+    {
+      role: 'system',
+      content: '你是一个非常有帮助的助手'
+    },
 
-    ]
+    {
+      role: 'user',
+      content: 'Hello,u little cute LLM'
+    },
+
+  ]
 
 
-  }
-  // 发起请求
-  fetch(endpoint,{
-    method:'POST',
-    headers,
-    body:JSON.stringify(payload)
-    // JSON.stringify 是一个函数 用来将一个对象转换为JSON字符串
-    // 为什么要将对象转换为JSON字符串? 因为HTTP协议只能传输字符串，二进制流，对象不能直接传输，
-    // 请求 + LLM 响应 需要花时间
-  })
-.then(response=>response.json()) //为什么response要json化？
-// 因为http是基于请求响应的简单协议
-// 返回的也是文本或二进制流
-// 解析返回的json数据也要花时间 
-.then(data=>{
-  console.log(data)
-  document.querySelector('#reply').innerHTML+=data.choices[0].message.content
-  // 为什么有.choices[0]? 因为choices是一个数组，我们只需要第一个元素
+}
+// 发起请求
+fetch(endpoint, {
+  method: 'POST',
+  headers,
+  body: JSON.stringify(payload)
+  // JSON.stringify 是一个函数 用来将一个对象转换为JSON字符串
+  // 为什么要将对象转换为JSON字符串? 因为HTTP协议只能传输字符串，二进制流，对象不能直接传输，
+  // 请求 + LLM 响应 需要花时间
 })
+  .then(response => response.json()) //为什么response要json化？
+  // 因为http是基于请求响应的简单协议
+  // 返回的也是文本或二进制流
+  // 解析返回的json数据也要花时间 
+  .then(data => {
+    console.log(data)
+    document.querySelector('#reply').innerHTML += data.choices[0].message.content
+    // 为什么有.choices[0]? 因为choices是一个数组，我们只需要第一个元素
+  })
 
 
 

@@ -26,7 +26,7 @@
         const content = document.getElementById('content-container')
         // 监听hashchange事件
         window.addEventListener('hashchange', function () {
-            //console.log(window.location.hash);
+            console.log(window.location.hash);
             switch (window.location.hash) {
                 case '#home':
                     content.innerHTML = '<h2>Home</h2> <p>Welcome to our homepage</p>';
