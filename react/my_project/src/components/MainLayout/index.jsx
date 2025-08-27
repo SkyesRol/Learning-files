@@ -41,20 +41,25 @@ const MainLayout = () => {
     }, [])
     return (
         <>
+            <div
+                className="flex flex-col h-screen "
+                style={{ paddingBottom: '50px' }}>  {/*这里设置style是因为Tabbar是fixed定位，不在文档流 */}
+                <div className="flex-1">
+                    <Outlet />
+                </div>
+                <Tabbar value={active}
+                    onChange={(key) => { setActive(key); navigate(tabs[key].path) }}>
+                    {tabs.map((tab, index) => (
+                        <Tabbar.Item key={index}
+                            icon={tab.icon}
+                        >
+                            {tab.title}
+                        </Tabbar.Item>
 
-            <Outlet />
-            <Tabbar value={active}
-                onChange={(key) => { setActive(key); navigate(tabs[key].path) }}>
-                {tabs.map((tab, index) => (
-                    <Tabbar.Item key={index}
-                        icon={tab.icon}
-                    >
-                        {tab.title}
-                    </Tabbar.Item>
+                    ))}
 
-                ))}
-
-            </Tabbar>
+                </Tabbar>
+            </div>
         </>
     )
 }

@@ -130,7 +130,37 @@ Readme.md 很重要 方便面试官
             - react-vant + @react-vant/icons
             - value + onChange 响应式
             - 点击链接分享，修改active的设置
+- chatbot 模块
+    - llm模块  chat 封装
+    - 迭代 chat ， 支持任意模型
+## 项目亮点和难点
+- 前端智能
+    - chat函数
+    - 对各家模型比较感兴趣，升级为各种模型
+        性能，能力，性价比
+        随意切换大模型
+- 原子css
+    - App.css 里面添加通用样式
+    - 各自模块里module.css 不影响别的组件
+    - lib-flexible 移动端适配
+    - postcss pxtorem 插件 快速还原设计稿
+    - 原子类的css，
+        一个元素按功能逻辑拆分成多个类，和原子一样
+        元素的样式就可以由这些原子类组合而成
+        样式复用的更好
+## 项目遇到过什么问题，怎么解决的
+- chat messages 遇到了一些message的覆盖问题
+    - 闭包陷阱  两次setMessages
+
 - es6特性使用
     - arr.findIndex
     - str.startsWith
     - promise
+
+- 项目迭代
+    - 功能由浅入深
+    - chatbot deepseek chat
+    - deepseek-r1 推理模型
+    - 流式输出
+    - 上下文 LRU
+    - coze 工作流接口调用
