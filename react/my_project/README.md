@@ -126,3 +126,11 @@ Readme.md 很重要 方便面试官
         - Route 不加path 对应的路由自动选择
             - tabbar 模板
             - blank 模板
+        - tabbar
+            - react-vant + @react-vant/icons
+            - value + onChange 响应式
+            - 点击链接分享，修改active的设置
+- es6特性使用
+    - arr.findIndex
+    - str.startsWith
+    - promise
