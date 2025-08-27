@@ -116,6 +116,11 @@ Readme.md 很重要 方便面试官
 - UI组件库
     - react-vant 第三方组件库 70%的组件已经有了，不用写
     - 选择一个适合业务的UI组件库 或者公司内部的组件库 
+- Search
+    - 防抖
+    - api
+        GoogleSuggest
+    - localStorage
 
 - 配置路由以及懒加载
     - 懒加载
@@ -164,3 +169,17 @@ Readme.md 很重要 方便面试官
     - 流式输出
     - 上下文 LRU
     - coze 工作流接口调用
+
+## 通用组件开发
+- Loading
+    - 居中方案
+        - position fixed
+        - left 0
+        - right 0
+        - top 0
+        - bottom 0
+        - margin auto
+    - animation
+    - React.memo 无状态组件，不重新渲染
+## mock
+- pnpm i mockjs

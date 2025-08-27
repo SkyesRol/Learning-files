@@ -1,0 +1,25 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    padding: 0 40px 0 12px;
+    height: 80px;
+    background: #eee;
+}
+
+.ipt {
+    flex: 1;
+    margin: 0 5px;
+    background: #eee;
+    color: #333;
+    font-size: 28px;
+    outline: none;
+    /*搜索框的轮廓线，不参与盒子模型的计算*/
+    border: none;
+    /*原生的input有点难看*/
+    border-bottom: 1px solid #e4e4e4;
+}
+
+.box:placeholder {
+    color: #1f1f1f;
+
+}
