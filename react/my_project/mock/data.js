@@ -1,5 +1,14 @@
 import Mock from 'mockjs';
 
+const getImages = (page, pageSize = 10) => {
+    return Array.from({ length: pageSize }, (_, i) => ({
+        // 索引唯一
+        id: `${page}-${i}`,
+        height: Mock.Random.integer(300, 600),
+        url: Mock.Random.image('300x400', Mock.Random.color(), '#fff', 'img'),
+
+    }))
+}
 export default [
     {
         url: '/api/search',
@@ -51,5 +60,48 @@ export default [
         }
 
     },
+    {
+        url: '/api/detail/:id',
+        method: 'get',
+        timeout: 1000,
+        response: (req, res) => {
+            const randomData = Mock.mock({
+                title: '@ctitle(5, 10)',
+                price: '@integer(60, 100)',
+                desc: '@cparagraph(10,30)',
+                images: [
+                    {
+                        url: 'https://img.36krcdn.com/hsossms/20250729/v2_17dc4793268c46558e68355c5b25a55d@000000@ai_oswg369871oswg1536oswg722_img_000~tplv-1marlgjv7f-ai-v3:600:400:600:400:q70.jpg?x-oss-process=image/format,webp',
+                        alt: '@ctitle(5, 10)'
+                    },
+                    {
+                        url: 'https://img.36krcdn.com/hsossms/20250729/v2_17dc4793268c46558e68355c5b25a55d@000000@ai_oswg369871oswg1536oswg722_img_000~tplv-1marlgjv7f-ai-v3:600:400:600:400:q70.jpg?x-oss-process=image/format,webp',
+                        alt: '@ctitle(5, 10)'
+                    },
+                    {
+                        url: 'https://img.36krcdn.com/hsossms/20250729/v2_17dc4793268c46558e68355c5b25a55d@000000@ai_oswg369871oswg1536oswg722_img_000~tplv-1marlgjv7f-ai-v3:600:400:600:400:q70.jpg?x-oss-process=image/format,webp',
+                        alt: '@ctitle(5, 10)'
+                    },
+                ]
+            })
 
+            return {
+                code: 0,
+                data: randomData
+            }
+        }
+    },
+    {
+        // ?page=1 queryStrings
+        url: '/api/images',
+        method: 'get',
+        timeout: 1000,
+        response: ({ query }) => {
+            const page = Number(query.page) || 1;
+            return {
+                code: 0,
+                data: getImages(page)
+            }
+        }
+    },
 ]

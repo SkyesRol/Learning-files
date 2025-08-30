@@ -11,6 +11,8 @@ import {
 import MainLayout from '@/components/MainLayout'
 import BlankLayout from '@/components/BlankLayout'
 import Loading from '@/components/Loading'
+import Toast from '@/components/Toast'
+
 const Home = lazy(() => import('@/pages/Home'))
 const Search = lazy(() => import('@/pages/Search'))
 const Trip = lazy(() => import('@/pages/Trip'))
@@ -18,12 +20,15 @@ const Account = lazy(() => import('@/pages/Account'))
 const Collection = lazy(() => import('@/pages/Collection'))
 const Login = lazy(() => import('@/pages/Login'))
 const Discount = lazy(() => import('@/pages/Discount'))
+const Detail = lazy(() => import('@/pages/Detail'))
+const Coze = lazy(() => import('@/pages/Coze'))
 function App() {
 
 
   return (
     <>
       <Suspense fallback={<Loading />}>
+
         {/* 带有tabbar的Layout */}
         <Routes>
           <Route element={<MainLayout />}>
@@ -41,10 +46,13 @@ function App() {
         <Routes >
           <Route element={<BlankLayout />}>
             <Route path='/search' element={<Search />} />
+            <Route path='/detail/:id' element={<Detail />} />
             <Route path='/login' element={<Login />} />
           </Route>
+          <Route path='/coze' element={<Coze />} />
         </Routes>
       </Suspense>
+      <Toast />
     </>
   )
 }

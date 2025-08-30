@@ -43,9 +43,7 @@ const Search = () => {
     const suggestListStyle = {
         display: query ? 'block' : 'none'
     }
-    const hotListStyle = {
-        display: query ? 'none' : 'block'
-    }
+
     return (
         <div className={styles.container}>
             <div className={styles.wrapper}>

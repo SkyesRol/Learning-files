@@ -1,12 +1,14 @@
 import useTitle from '@/hooks/useTitle'
-import Loading from '@/components/Loading'
-
+import { showToast } from '@/components/Toast/ToastController';
+import {
+    Button
+} from 'react-vant'
 const Home = () => {
     useTitle('奶龙的首页');
     return (
         <div>
             Home
-            <Loading />
+            <Button type='primary' onClick={() => showToast(1, 2, 3)}>showToast</Button>
         </div>
     )
 }
