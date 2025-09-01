@@ -22,6 +22,8 @@ const Login = lazy(() => import('@/pages/Login'))
 const Discount = lazy(() => import('@/pages/Discount'))
 const Detail = lazy(() => import('@/pages/Detail'))
 const Coze = lazy(() => import('@/pages/Coze'))
+const ArticleNew = lazy(() => import('@/pages/Article/ArticleNew'))
+const Article = lazy(() => import('@/pages/Article'))
 function App() {
 
 
@@ -48,6 +50,9 @@ function App() {
             <Route path='/search' element={<Search />} />
             <Route path='/detail/:id' element={<Detail />} />
             <Route path='/login' element={<Login />} />
+            <Route path="/article" element={<Article />}>
+              <Route index path="new" element={<ArticleNew />} />
+            </Route>
           </Route>
           <Route path='/coze' element={<Coze />} />
         </Routes>

@@ -215,7 +215,14 @@ Readme.md 很重要 方便面试官
             拿到file_id
         -   workflow workflow_id + token
             工作流需要的参数
-            
+    - 语音输入发表文章
+        - 字节的tts
+        - onMouseDown
+        - BOM html5
+        navigator.mediaDevices.getUserMedia({
+            audio: true
+        })
+        用户隐私，要授权  getLocation
 ## 项目遇到过什么问题，怎么解决的
 - chat messages 遇到了一些message的覆盖问题
     - 闭包陷阱  两次setMessages
@@ -255,5 +262,10 @@ Readme.md 很重要 方便面试官
         - margin auto
     - animation
     - React.memo 无状态组件，不重新渲染
+
+    - AI 功能
+        智能前端（http 请求）+ 工作流+Coze API + ai 全新工作链路
+        + 自动化Agent
+
 ## mock
 - pnpm i mockjs
