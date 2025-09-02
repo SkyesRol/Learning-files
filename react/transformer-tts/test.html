@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <button id="btn">Button</button>
+    <button id="removebtn">Remove</button>
+    <script>
+        const btn = document.getElementById('btn');
+        const rbtn = document.getElementById('removebtn')
+        // 订阅发布者模式
+        const callbackA = function () {
+            alert('123');
+        }
+        const callbackB = function () {
+            alert('456');
+        }
+        btn.addEventListener('click', callbackA)
+        btn.addEventListener('click', callbackB)
+        rbtn.addEventListener('click', function () {
+            btn.removeEventListener('click', callbackA)
+        })
+    </script>
+</body>
+
+</html>
