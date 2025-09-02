@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+
+    </style>
+</head>
+
+<body>
+
+
+
+    <script>
+
+        const getRepos = function (id) {
+            return new Promise((resolve, reject) => {
+                try {
+                    fetch(`https://api.github.com/users/${id}/repos`)
+                        .then(res => res.json())
+                        .then(data => {
+                            resolve(data)
+                        })
+                }
+                catch (err) {
+                    console.log(err);
+                }
+            })
+        }
+
+        getRepos('SkyesRol')
+            .then(data => {
+                console.log(data);
+
+            });
+        // 批量异步任务
+        (async () => {
+            // const res = []
+            // res[0] = await getRepos('SkyesRol')
+            // res[1] = await getRepos('shunwuyu')
+            // console.log(res);
+            const allPromises = [getRepos('SkyesRol'), getRepos('shunwuyu')];
+            Promise.all(allPromises)
+                .then(data => {
+                    console.log(data);
+
+                })
+
+
+        })()
+    </script>
+</body>
+
+</html>

@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react'
-
 import './App.css'
 import Progress from './components/Progress';
 import AudioPlayer from './components/AudioPlayer';
@@ -13,7 +12,7 @@ function App() {
   const [ready, setReady] = useState(null);
   // 按钮点击，防止多次点击
   const [disabled, setDisabled] = useState(false)
-  const [programItems, setProgressItems] = useState([])
+  const [progressItems, setProgressItems] = useState([])
   const [text, setText] = useState('I love huggingface')
   const [selectedSpeaker, setSelectedSpeaker] = useState(DEFAULT_SPEAKER)
   const [output, setOutput] = useState(null);
@@ -24,16 +23,41 @@ function App() {
     worker.current = new Worker(new URL('./worker.js', import.meta.url), {
       type: 'module'
     })
-    worker.current.postMessage({
-      text: '灵不灵，奔驰s680'
-    })
-    const onMessageReceived = () => {
 
+    const onMessageReceived = (e) => {
+      console.log(e, 'from main thread');
+      switch (e.data.status) {
+        case 'initiate':
+          setReady(false);
+          setProgressItems(prev => [...prev, e.data])
+          break;
+        case 'progress':
+          console.log(e.data, 'from progress');
+
+          setProgressItems(prev => prev.map(item => {
+            if (item.file === e.data.file) {
+              return {
+                ...item,
+                progress: e.data.progress
+              }
+            }
+            return item;
+          }))
+          break;
+        case 'done':
+          setProgressItems(prev => prev.filter(item => item.file !== e.data.file))
+
+          break;
+        case 'ready':
+          setReady(true);
+          break;
+      }
     }
     worker.current.onmessage = onMessageReceived;
 
     return () => worker.current.removeEventListener('message', onMessageReceived)
   }, [])
+
   const handleGenerateSpeech = () => {
     setDisabled(true);
     worker.current.postMessage({
@@ -41,10 +65,37 @@ function App() {
       speaker_id: selectedSpeaker
     })
   }
+  const isLoading = ready === false;
   return (
     <>
       <div className="min-h-screen flex justify-center items-center bg-gray-100">
+        {/* llm 初始化 */}
+        <div className="absolute z-50 top-0 left-0 w-full h-full 
+        transition-all px-9 flex flex-col justify-center text-center"
+          style={{
+            opacity: isLoading ? 1 : 0,
+            pointerEvents: isLoading ? 'all' : 'none',
+            background: 'rgba(0,0,0,0.9)',
+            backdropFilter: 'blur(8px)'
+          }}
+        >
+          {
+            isLoading && (
+              <label className='text-white text-xl p-3'>
+                Loading models....(only run once)
+              </label>
+            )
+          }
+          {
+            progressItems.map(data => (
+              <div key={`${data.name}/${data.file}`}>
+                <Progress text={`${data.name}/${data.file}`} percentage={data.progress || 0} />
+              </div>
+            ))
 
+          }
+        </div>
+        {/* tts 功能区 */}
         <div className="bg-white p-8 rounded-lg w-full max-w-xl m-2">
           <h1 className="text-3xl font-semibold text-grey-800 mb-1 text-center">
             In browser Text To Speech(端模型)
