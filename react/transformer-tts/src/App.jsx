@@ -25,7 +25,7 @@ function App() {
     })
 
     const onMessageReceived = (e) => {
-      console.log(e, 'from main thread');
+      // console.log(e, 'from main thread');
       switch (e.data.status) {
         case 'initiate':
           setReady(false);
@@ -50,6 +50,12 @@ function App() {
           break;
         case 'ready':
           setReady(true);
+          break;
+        case 'complete':
+          setDisabled(false);
+          const blobUrl = URL.createObjectURL(e.data.output);
+          console.log(blobUrl);
+          setOutput(blobUrl);
           break;
       }
     }
