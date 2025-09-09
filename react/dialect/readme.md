@@ -62,5 +62,27 @@ fiber 结点 就是 工作结点 一般叫它为一个worker
 - 继续
 - fiber 结点对象有哪些属性
 
+fiber 执行 深度优先搜索
+
+## Render 分成两个阶段
+
+- 渲染阶段    构建新的虚拟dom树， diff  -> patches 
+- 提交阶段    把改变应用到真实dom上 
 
 
+## diff 算法
+- 同层级比较   不然时间复杂度为O(n^3)   n个结点比n次，再增删改查n次
+    type改变，就不再比对子节点
+    dom开销大
+    diff 算法除了考虑本身的时间复杂度外，还要考虑一个因素：dom操作的次数
+    移动操作比新增+删除操作耗时少，所以diff 算法会优先考虑移动操作
+    API： insertBefore
+- 简单diff算法
+    - ABCD DCAB
+    多节点 diff 算法的目的是为了尽量复用节点，通过移动节点代替创建。
+    - ABC  ABEC  将E创建并加到C的前面（浏览器只有insertBefore这个API）
+    newChildren[i-1]  B
+    newChildren[i-1].nextSibling C
+    container.insertBefore(E,newChildren[i-1])
+
+    diff 算法我们是从一端逐个处理，叫简单 diff 算法
