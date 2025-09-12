@@ -67,7 +67,7 @@ const loadData = async (webpages: string[]) => {
             //console.log(embeddingResult);
             // 确保向量数据是正确的数组格式
             const error = await supabase.from('chunks').insert({
-                content: chunks,
+                content: chunk,
                 vector: embeddingResult.embedding,
                 url: url,
             })
@@ -77,6 +77,7 @@ const loadData = async (webpages: string[]) => {
 
 
         }
+        console.log('Insert complete');
 
     }
 }
@@ -84,9 +85,9 @@ const loadData = async (webpages: string[]) => {
 // 维护一个知识库，知识库的来源可配置
 loadData([
     "https://en.wikipedia.org/wiki/Samsung_Galaxy_S25",
-    // "https://en.wikipedia.org/wiki/Samsung_Galaxy_S24",
-    // "https://en.wikipedia.org/wiki/IPhone_16",
-    // "https://en.wikipedia.org/wiki/IPhone_16_Pro",
-    // "https://en.wikipedia.org/wiki/IPhone_15",
-    // "https://en.wikipedia.org/wiki/IPhone_15_Pro",
+    "https://en.wikipedia.org/wiki/Samsung_Galaxy_S24",
+    "https://en.wikipedia.org/wiki/IPhone_16",
+    "https://en.wikipedia.org/wiki/IPhone_16_Pro",
+    "https://en.wikipedia.org/wiki/IPhone_15",
+    "https://en.wikipedia.org/wiki/IPhone_15_Pro",
 ]);

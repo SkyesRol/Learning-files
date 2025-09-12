@@ -75,7 +75,7 @@ Puppeteer 是一个 Node.js 库，用于控制无头浏览器（如 Chrome），
 
 - ml-auto 在 Flexbox 中将元素推到最右侧
 
-
+- pr-8 padding-right: 2rem;
 
 
 
@@ -96,6 +96,18 @@ Puppeteer 是一个 Node.js 库，用于控制无头浏览器（如 Chrome），
 - shadcn 组件库 按需加载，定制性强
 - lucide-react 图标库
 - useChat 对hooks的理解 响应式业务的封装
+
+- prompt 设计
+    - 准确
+    - 复用
+    - 格式
+        - 身份
+        - 任务
+        - 分区 context和question
+    - 返回格式
+    - 约束 不回答手机之外的内容
+    - 接收一个参数，函数返回
+
 ## 后端亮点
 - ai streamText
 - result.toDataStreamResponse() 将 streamText 生成的流式结果转换为一个可被前端消费的 Response 对象，支持以数据流形式传输 AI 输出，实现逐字显示等实时效果。
@@ -130,7 +142,7 @@ Puppeteer 是一个 Node.js 库，用于控制无头浏览器（如 Chrome），
 
 ## 遇到的问题
 - ai-sdk 检索的时候， LLM给老版本代码，调试出了些问题，MCP可以解决这个问题
-
+        stream_text 语法->旧版 不适配
 - ts-node 编译时不支持esm
     在tsconfig.json (ts 配置文件)中添加
     "compilerOptions": {
@@ -140,8 +152,54 @@ Puppeteer 是一个 Node.js 库，用于控制无头浏览器（如 Chrome），
 
 - rpc调用
     在supabase中 调用一个函数
-    
-    首先在supabase安装一个插件：
+
+~~~sql
+create or replace function get_relevant_chunks(
+  -- 一个长度为 1536 的“向量”
+  query_vector vector(1536), /*1536 维度，来自于openai的embed*/
+  -- 只找“相似度”超过这个值的结果
+  match_threshold float,
+  -- 最多返回多少条结果。
+  match_count int
+)
+returns table (
+  id uuid,
+  content text,
+  url text,
+  date_updated timestamp,
+  similarity float
+)
+-- 这个函数执行完后，会返回一个“表格形式”的结果。
+language sql stable
+-- 说明这个函数是用 SQL 语言写的，并且是“稳定的”
+-- 函数内容开始。
+as $$
+  select
+    id,
+    content,
+    url,
+    date_updated,
+    -- chunks.vector <=> query_vector 是 pgvector 扩展提供的“距离”计算
+    1 - (chunks.vector <=> query_vector) as similarity
+  from chunks
+  where 1 - (chunks.vector <=> query_vector) > match_threshold
+  order by similarity desc
+  limit match_count;
+  -- 函数内容结束。
+$$;
+~~~
+
+- 向量的相似度计算
+    - mysql不支持，postgresql支持，
+    <=> 距离计算
+- 1- 距离
+- 数据库支持函数
+    传参
+    指定返回的内容
+    构建sql
+
+
+    在supabase安装一个插件：
     create extension vector
     with schema extensions;
 
@@ -157,7 +215,7 @@ Puppeteer 是一个 Node.js 库，用于控制无头浏览器（如 Chrome），
   );
 
 
-
+- 在fetchRelevantContext中 调用了get_relevant_chunks函数，但是得不到data，最开始显示调用不了数据库函数，分析半天原因，发现是match_threshold的匹配阈值过高，内容材料不含有这么高的相似度，所以没有返回相似数据
 
 
 
