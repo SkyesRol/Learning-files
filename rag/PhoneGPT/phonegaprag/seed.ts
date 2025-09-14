@@ -84,10 +84,15 @@ const loadData = async (webpages: string[]) => {
 
 // 维护一个知识库，知识库的来源可配置
 loadData([
-    "https://en.wikipedia.org/wiki/Samsung_Galaxy_S25",
-    "https://en.wikipedia.org/wiki/Samsung_Galaxy_S24",
-    "https://en.wikipedia.org/wiki/IPhone_16",
-    "https://en.wikipedia.org/wiki/IPhone_16_Pro",
-    "https://en.wikipedia.org/wiki/IPhone_15",
-    "https://en.wikipedia.org/wiki/IPhone_15_Pro",
+    // "https://www.zhihu.com/tardis/zm/art/1948349697673625793?source_id=1005",
+    // "https://zhuanlan.zhihu.com/p/689813792",
+    // "https://zhuanlan.zhihu.com/p/359589306",
+    // "https://zhuanlan.zhihu.com/p/621576979",
+    // "https://www.zhihu.com/tardis/zm/art/659213507?source_id=1005",
+    // "https://zhuanlan.zhihu.com/p/28696908840",
+    "https://blog.csdn.net/2509_90365627/article/details/145423350",
+    "https://www.sohu.com/a/902787290_121213129",
+    // "https://support.apple.com/zh-cn/122210",
+    // "https://support.apple.com/zh-cn/122209",
+    // "https://support.apple.com/zh-cn/111346"
 ]);

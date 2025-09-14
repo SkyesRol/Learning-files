@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "phoneGPT",
+  title: "laptopGPT",
   description: "An AI Chatbot that demonstrates the basic concepts of RAG",
 };
 

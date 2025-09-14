@@ -26,7 +26,7 @@ export default function ChatInput({
             <Input
                 value={input}
                 onChange={handleInputChange}
-                placeholder="Ask me anything about the damn phones,bitch~"
+                placeholder="Ask me anything about the laptops~"
 
             />
             <Button>

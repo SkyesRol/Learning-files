@@ -1,4 +1,4 @@
-# phoneGPT
+# laptopGPT
 
 - chatbot
     组件、tailwindcss、messages的渲染
@@ -225,3 +225,8 @@ $$;
 
 
 
+
+
+
+
+我想买一个6000元-9000元的笔记本电脑用来打游戏，给我推荐三款，并说明它们的优点
