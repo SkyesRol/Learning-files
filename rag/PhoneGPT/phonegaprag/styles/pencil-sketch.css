@@ -1,0 +1,339 @@
+/* 简约铅笔画风格样式 */
+/* 手绘风格字体 */
+@import url('https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100..900&family=Playpen+Sans:wght@500&display=swap");
+
+:root {
+  /* 主色调 - 铅笔画风格的灰色调 */
+  --pencil-bg: #f8f8f5;
+  --pencil-text: #333333;
+  --pencil-accent: #555555;
+
+  /* 辅助色 */
+  --pencil-border: #cccccc;
+  --pencil-card-bg: #ffffff;
+  --pencil-text-secondary: #666666;
+
+  /* 聊天气泡颜色 */
+  --user-bubble-bg: #f5f5f5;
+  --user-bubble-text: #333333;
+  --assistant-bubble-bg: #ffffff;
+  --assistant-bubble-text: #333333;
+  --link-color: #3a7bd5;
+  --link-hover-color: #2c5ea3;
+
+  /* 铅笔画效果 */
+  --pencil-shadow: 2px 2px 3px rgba(0, 0, 0, 0.1);
+  --pencil-line: 1px solid #d0d0d0;
+  --pencil-texture: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpattern id='grid' width='10' height='10' patternUnits='userSpaceOnUse'%3E%3Cpath d='M 10 0 L 0 0 0 10' fill='none' stroke='%23000000' stroke-width='0.5' stroke-opacity='0.02'/%3E%3C/pattern%3E%3Crect width='100' height='100' fill='url(%23grid)' /%3E%3C/svg%3E");
+}
+
+/* 全局body样式 */
+body {
+  background-color: #f0f0e8;
+  margin: 0;
+  padding: 0;
+  font-family: 'Playpen Sans', 'Noto Sans SC', sans-serif;
+}
+
+/* 主页面样式 */
+.pencil-main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: var(--pencil-bg);
+  background-image: var(--pencil-texture);
+  height: 100vh;
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Playpen Sans', 'Noto Sans SC', sans-serif;
+  overflow-y: auto;
+}
+
+/* 聊天容器 */
+.pencil-chat-container {
+  background-color: var(--pencil-card-bg);
+  border: var(--pencil-line);
+  border-radius: 8px;
+  box-shadow: var(--pencil-shadow);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+  overflow-y: auto;
+  position: relative;
+}
+
+/* 手绘效果边框 */
+.pencil-chat-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  pointer-events: none;
+  background: linear-gradient(to right, #d0d0d0 1px, transparent 1px) 0 0 / 20px 20px,
+    linear-gradient(to bottom, #d0d0d0 1px, transparent 1px) 0 0 / 20px 20px;
+  opacity: 0.3;
+}
+
+/* 标题样式 */
+.pencil-title {
+  font-family: 'Playpen Sans', 'Noto Sans SC', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--pencil-text);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  position: relative;
+  display: inline-block;
+}
+
+/* 手绘下划线效果 */
+.pencil-title::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 100%;
+  height: 2px;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='3' viewBox='0 0 100 3' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 1.5c5 0 5-1 10-1s5 1 10 1 5-1 10-1 5 1 10 1 5-1 10-1 5 1 10 1 5-1 10-1 5 1 10 1 5-1 10-1 5 1 10 1 5-1 10-1' stroke='%23333' fill='none' stroke-width='1'/%3E%3C/svg%3E");
+  background-size: 100px 3px;
+  background-repeat: repeat-x;
+}
+
+/* 用户消息气泡 */
+.pencil-user-message {
+  background-color: var(--user-bubble-bg);
+  border: var(--pencil-line);
+  border-radius: 12px 12px 0 12px;
+  padding: 1rem;
+  margin-left: auto;
+  margin-bottom: 1rem;
+  max-width: 80%;
+  color: var(--user-bubble-text);
+  box-shadow: var(--pencil-shadow);
+  position: relative;
+  font-family: 'Playpen Sans', 'Noto Sans SC', sans-serif;
+}
+
+/* 手绘气泡效果 */
+.pencil-user-message::before {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  right: 0;
+  width: 15px;
+  height: 8px;
+  background-color: var(--user-bubble-bg);
+  border-right: var(--pencil-line);
+  border-bottom: var(--pencil-line);
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+}
+
+/* 助手消息气泡 */
+.pencil-assistant-message {
+  background-color: var(--assistant-bubble-bg);
+  border: var(--pencil-line);
+  border-radius: 12px 12px 12px 0;
+  padding: 1rem;
+  margin-right: auto;
+  margin-bottom: 1rem;
+  max-width: 80%;
+  color: var(--assistant-bubble-text);
+  box-shadow: var(--pencil-shadow);
+  position: relative;
+  font-family: 'Playpen Sans', 'Noto Sans SC', sans-serif;
+}
+
+/* 手绘气泡效果 */
+.pencil-assistant-message::before {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 15px;
+  height: 8px;
+  background-color: var(--assistant-bubble-bg);
+  border-left: var(--pencil-line);
+  border-bottom: var(--pencil-line);
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+/* 输入区域 */
+.pencil-input-container {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+/* 输入框样式 */
+.pencil-input {
+  border: var(--pencil-line);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  background-color: var(--pencil-card-bg);
+  transition: all 0.2s ease;
+  flex-grow: 1;
+  font-family: 'Playpen Sans', 'Noto Sans SC', sans-serif;
+  box-shadow: var(--pencil-shadow);
+}
+
+.pencil-input:focus {
+  border-color: var(--pencil-accent);
+  outline: none;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 按钮样式 */
+.pencil-button {
+  background-color: var(--pencil-bg);
+  color: var(--pencil-text);
+  border: var(--pencil-line);
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playpen Sans', 'Noto Sans SC', sans-serif;
+  box-shadow: var(--pencil-shadow);
+}
+
+.pencil-button:hover {
+  background-color: #e9e9e6;
+  transform: translateY(-1px);
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.15);
+}
+
+/* 欢迎页面样式 */
+.pencil-welcome-overlay {
+  background-color: var(--pencil-bg);
+  background-image: var(--pencil-texture);
+}
+
+.pencil-welcome-title {
+  font-family: 'Playpen Sans', 'Noto Sans SC', sans-serif;
+  font-size: 4rem;
+  font-weight: 700;
+  color: var(--pencil-text);
+  margin-bottom: 1.5rem;
+  position: relative;
+  display: inline-block;
+}
+
+/* 手绘下划线效果 */
+.pencil-welcome-title::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 100%;
+  height: 3px;
+}
+
+/* 链接样式 */
+.pencil-link {
+  color: var(--link-color);
+  text-decoration: none;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.pencil-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 3px;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='3' viewBox='0 0 100 3' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 1.5c5 0 5-1 10-1s5 1 10 1 5-1 10-1 5 1 10 1 5-1 10-1s5 1 10 1 5-1 10-1 5 1 10 1 5-1 10-1 5 1 10 1 5-1 10-1' stroke='%233a7bd5' fill='none' stroke-width='1'/%3E%3C/svg%3E");
+  background-size: 100px 3px;
+  background-repeat: repeat-x;
+  opacity: 0.8;
+  transition: all 0.2s ease;
+}
+
+.pencil-link:hover {
+  color: var(--link-hover-color);
+}
+
+.pencil-link:hover::after {
+  opacity: 1;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='3' viewBox='0 0 100 3' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 1.5c5 0 5-1 10-1s5 1 10 1 5-1 10-1 5 1 10 1 5-1 10-1s5 1 10 1 5-1 10-1 5 1 10 1 5-1 10-1 5 1 10 1 5-1 10-1' stroke='%232c5ea3' fill='none' stroke-width='1.2'/%3E%3C/svg%3E");
+  height: 4px;
+}
+
+.pencil-welcome-title::after {
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='3' viewBox='0 0 100 3' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 1.5c5 0 5-1 10-1s5 1 10 1 5-1 10-1 5 1 10 1 5-1 10-1s5 1 10 1 5-1 10-1 5 1 10 1 5-1 10-1 5 1 10 1 5-1 10-1' stroke='%23333' fill='none' stroke-width='1'/%3E%3C/svg%3E");
+  background-size: 100px 3px;
+  background-repeat: repeat-x;
+}
+
+.pencil-welcome-description {
+  font-family: 'Playpen Sans', 'Noto Sans SC', sans-serif;
+  font-size: 1.25rem;
+  color: var(--pencil-text);
+  max-width: 36rem;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+}
+
+.pencil-welcome-button {
+  background-color: var(--pencil-bg);
+  color: var(--pencil-text);
+  border: var(--pencil-line);
+  border-radius: 8px;
+  padding: 1rem 2rem;
+  font-weight: 500;
+  font-size: 1.125rem;
+  transition: all 0.3s ease;
+  font-family: 'Playpen Sans', 'Noto Sans SC', sans-serif;
+  box-shadow: var(--pencil-shadow);
+}
+
+.pencil-welcome-button:hover {
+  background-color: #e9e9e6;
+  transform: translateY(-2px);
+  box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* 动画效果 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pencil-animation {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+/* 响应式调整 */
+@media (max-width: 640px) {
+  .pencil-main {
+    padding: 1rem;
+  }
+
+  .pencil-chat-container {
+    padding: 1rem;
+  }
+
+  .pencil-title {
+    font-size: 2rem;
+  }
+
+  .pencil-welcome-title {
+    font-size: 3rem;
+  }
+}

@@ -8,6 +8,9 @@ import ChatOutput from "@/components/ChatOutput"
 import ChatInput from "@/components/ChatInput"
 import Overlay from "@/components/Overlay"
 
+// 导入铅笔画风格样式
+import "@/styles/pencil-sketch.css"
+
 export default function Home() {
   const [showOverlay, setShowOverlay] = useState(true);
 
@@ -22,16 +25,18 @@ export default function Home() {
   return (
     <>
       {showOverlay && <Overlay onStart={() => setShowOverlay(false)} />}
-      <main className="max-w-3xl mx-auto p-4">
-        <h1 className="text-xl font-semibold mb-4">laptopGPT</h1>
-        <div className="space-y-4 mb-4 max-h-[80vh] overflow-y-auto">
+      <main className="pencil-main">
+        <h1 className="pencil-title">laptopGPT</h1>
+        <div className="pencil-chat-container">
           <ChatOutput messages={messages} status={status} />
         </div>
-        <ChatInput
-          input={input}
-          handleInputChange={handleInputChange}
-          handleSubmit={handleSubmit}
-        />
+        <div className="pencil-input-container">
+          <ChatInput
+            input={input}
+            handleInputChange={handleInputChange}
+            handleSubmit={handleSubmit}
+          />
+        </div>
       </main>
     </>
   )

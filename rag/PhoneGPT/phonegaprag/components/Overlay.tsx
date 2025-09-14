@@ -26,18 +26,18 @@ export default function Overlay({ onStart }: OverlayProps) {
 
   return (
     <div
-      className={`fixed inset-0 bg-gray-300 flex flex-col items-center justify-center z-50 ${isExiting ? 'animate-slide-out-up' : ''}`}
+      className={`fixed inset-0 pencil-welcome-overlay flex flex-col items-center justify-center z-50 ${isExiting ? 'animate-slide-out-up' : ''}`}
     >
       <div className="text-center space-y-8 px-4">
         <h1
-          className="text-6xl font-bold text-black animate-slide-in-top"
+          className="pencil-welcome-title animate-slide-in-top"
           style={{ animationDelay: '0.2s', opacity: 0, '--slide-distance': '-150%' }}
         >
           laptopGPT
         </h1>
 
         <p
-          className="text-xl text-black max-w-md mx-auto animate-slide-in-top"
+          className="pencil-welcome-description animate-slide-in-top"
           style={{ animationDelay: '0.2s', opacity: 0, '--slide-distance': '-90%' }}
         >
           Your AI-powered laptop expert - providing instant, tailored advice on specs, comparisons, and recommendations to find your perfect machine.
@@ -45,7 +45,7 @@ export default function Overlay({ onStart }: OverlayProps) {
 
         <Button
           onClick={handleStart}
-          className="mt-8 bg-black text-white hover:bg-black/80 px-8 py-6 text-lg animate-slide-in-btm"
+          className="pencil-welcome-button animate-slide-in-btm"
           style={{ animationDelay: '0.8s', opacity: 0 }}
           disabled={isExiting}
         >

@@ -36,7 +36,7 @@ export default function ChatOutput({ messages, status }: ChatOutputProps) {
 const UserChat = ({ content }: { content: string }) => {
 
     return (
-        <div className='bg-muted rounded-2xl ml-auto max-w-[80%] w-fit px-3 py-2 mb-6'>
+        <div className='pencil-user-message pencil-animation'>
             {content}
         </div>
     )
@@ -50,10 +50,10 @@ const UserChat = ({ content }: { content: string }) => {
 const AssistantChat = ({ content }: { content: string }) => {
 
     return (
-        <div className='pr-8 w-full mb-6'>
+        <div className='pencil-assistant-message pencil-animation'>
             <ReactMarkdown components={{
                 a: ({ href, children }) => (
-                    <a target="_blank" href={href}>{children}</a>
+                    <a target="_blank" href={href} className="pencil-link">{children}</a>
                 )
             }}>{content}</ReactMarkdown>
         </div>
