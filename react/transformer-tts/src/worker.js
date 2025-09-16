@@ -16,7 +16,7 @@ env.allowLocalModels = false
 // 多次执行tts ai 任务，但是只会实例化一次
 // 他的实例化开销太大了，也没有必要
 class MyTextToSpeechPipeline {
-    // AI 语音模型的数据源地址，用于下载不通说话的人的声音的特征向量
+    // AI 语音模型的数据源地址，用于下载不同说话的人的声音的特征向量
     // 每个字，每个词
     static BASE_URL = 'https://huggingface.co/datasets/Xenova/cmu-arctic-xvectors-extracted/resolve/main/';
     // 文本-> speecht5_tts 语音特征
@@ -31,9 +31,11 @@ class MyTextToSpeechPipeline {
     static vocoder_instance = null;
     static async getInstance(progress_callback = null) {
         // 分词器实例化
+
+
         if (this.tokenizer_instance === null) {
             // 之前处理过的大模型，是被预训练过的
-            this.tokenizer = AutoTokenizer.from_pretrained(this.model_id, {
+            this.tokenizer_instance = AutoTokenizer.from_pretrained(this.model_id, {
                 progress_callback
             })
             //console.log(this.tokenizer, '///////');
@@ -43,6 +45,7 @@ class MyTextToSpeechPipeline {
             this.model_instance = SpeechT5ForTextToSpeech.from_pretrained(
                 this.model_id,
                 {
+                    // data-type
                     dtype: 'fp32',
                     progress_callback
                 }
@@ -61,7 +64,7 @@ class MyTextToSpeechPipeline {
         }
         return new Promise(async (resolve, reject) => {
             const result = await Promise.all([
-                this.tokenizer,
+                this.tokenizer_instance,
                 this.model_instance,
                 this.vocoder_instance
             ])
@@ -128,7 +131,7 @@ self.onmessage = async (e) => {
         speaker_embeddings, // 512 维的向量
         { vocoder } // 合成器
     );
-    // console.log(waveform, '?????');
+    console.log(waveform, '?????');
     const wav = encodeWAV(waveform.data);
     // console.log(wav, '????');
 

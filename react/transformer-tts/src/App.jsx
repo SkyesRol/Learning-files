@@ -107,7 +107,7 @@ function App() {
             In browser Text To Speech(端模型)
           </h1>
           <h2 className="text-base font-medium text-grey-700 mb-2 text-center">
-            Made with <a href="">Transformer.js</a>
+            Made with <a target="_blank" href="https://hugging-face.cn/docs/transformers.js/index">Transformer.js</a>
           </h2>
           <div className="mb-4">
             <label htmlFor="text" className='block text-sm font-medium text-gray-600'>
