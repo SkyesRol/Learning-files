@@ -3,6 +3,7 @@
         "supabase"
     ],
     "cSpell.words": [
-        "langchain"
+        "langchain",
+        "reactflow"
     ]
 }
