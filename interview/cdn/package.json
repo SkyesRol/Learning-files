@@ -1,0 +1,15 @@
+{
+  "name": "cdn",
+  "version": "1.0.0",
+  "description": "团队上线了一张用户图像图片，放在CDN上做加速，后来后端同学更新了头像文件，但前端刷新页面后，用户依旧看到的是旧头像。",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ws": "^8.18.3"
+  }
+}
