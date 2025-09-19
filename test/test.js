@@ -47,16 +47,16 @@ instance.interceptors.response.use(
     response => {
         return response.data
     },
-    (error) =》{
-    if(error.response){
-    const { status, data } = error.response;
-    switch (status) {
-        case '403':
+    (error) => {
+        if (error.response) {
+            const { status, data } = error.response;
+            switch (status) {
+                case '403':
 
-        case '404':
+                case '404':
+            }
+        }
     }
-}
-  }
 )
 
 

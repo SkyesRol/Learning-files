@@ -1,7 +1,15 @@
+global.name = 'Fade';
+const obj1 = {
+    name: 'Skye',
+    doit: function () {
+        console.log(this.name);
+    },
+    doit2: () => {
+        console.log(this.name);
+    }
+}
 
+obj1.doit();
+doit3 = obj1.doit2;
+doit3();
 
-const obj1 = { m: 100 };
-const obj2 = obj1;
-obj2 = { m: 200 };
-
-console.log(obj1);
