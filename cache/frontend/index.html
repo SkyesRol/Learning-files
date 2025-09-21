@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片缓存示例</title>
+</head>
+
+<body>
+    <div id="pic">
+        <img id="image" alt="加载中...">
+    </div>
+    <div id="info">
+        <p>状态: <span id="status">加载中...</span></p>
+        <p>缓存信息: <span id="cache-info">-</span></p>
+        <p>是否从缓存加载: <span id="from-cache">-</span></p>
+        <p>加载时间: <span id="load-time">-</span></p>
+        <p>当前时间: <span id="current-time">-</span></p>
+        <div class="buttons">
+            <button id="reload">重新加载</button>
+            <button id="clear-cache">清除缓存</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            loadImage();
+
+            document.getElementById('reload').addEventListener('click', function () {
+                loadImage();
+            });
+
+            document.getElementById('clear-cache').addEventListener('click', function () {
+                // 清除性能条目
+                performance.clearResourceTimings();
+
+                // 使用no-cache强制重新请求
+                const timestamp = new Date().getTime();
+                fetch(`http://localhost:3000/api/cache1?t=${timestamp}`, {
+                    cache: 'no-cache',
+                    method: 'GET'
+                }).then(() => {
+                    // 更新状态
+                    document.getElementById('from-cache').textContent = '-';
+                    document.getElementById('cache-info').textContent = '-';
+                    alert('缓存已清除，点击重新加载按钮测试');
+                }).catch(error => {
+                    console.error('清除缓存失败:', error);
+                    alert('清除缓存失败: ' + error.message);
+                });
+            });
+        });
+
+        // 更新当前时间的函数
+        function updateCurrentTime() {
+            const now = new Date();
+            document.getElementById('current-time').textContent = now.toLocaleTimeString();
+        }
+
+        // 每秒更新一次时间
+        setInterval(updateCurrentTime, 1000);
+
+        function loadImage() {
+            const statusEl = document.getElementById('status');
+            const cacheInfoEl = document.getElementById('cache-info');
+            const loadTimeEl = document.getElementById('load-time');
+            const fromCacheEl = document.getElementById('from-cache');
+            statusEl.textContent = '加载中...';
+            loadTimeEl.textContent = '计算中...';
+
+            // 更新当前时间
+            updateCurrentTime();
+
+            // 创建性能观察器来监控资源加载
+            const startTime = performance.now();
+
+            // 创建新的图片元素
+            const img = new Image();
+
+            // 设置加载完成事件
+            img.onload = function () {
+                const endTime = performance.now();
+                const loadTime = (endTime - startTime).toFixed(2);
+                loadTimeEl.textContent = `${loadTime} ms`;
+                statusEl.textContent = '加载完成';
+
+                // 检查是否从缓存加载（通过性能条目）
+                const entries = performance.getEntriesByName(img.src);
+                if (entries.length > 0) {
+                    const entry = entries[entries.length - 1];
+                    if (entry.transferSize === 0) {
+                        fromCacheEl.textContent = '是（从缓存获取）';
+                    } else {
+                        fromCacheEl.textContent = '否（从服务器获取）';
+                    }
+                }
+            };
+
+            // 设置加载失败事件
+            img.onerror = function (error) {
+                statusEl.textContent = '加载失败';
+                console.error('Error:', error);
+            };
+
+            // 添加时间戳或随机参数以便于观察缓存行为（仅用于测试）
+            // const timestamp = new Date().getTime();
+            // img.src = `http://localhost:3000/api/cache1?t=${timestamp}`;
+
+            // 设置图片源
+            img.src = 'http://localhost:3000/api/cache1';
+
+            // 替换页面上的图片
+            const imgContainer = document.getElementById('image');
+            imgContainer.src = img.src;
+
+            // 获取响应头信息（使用fetch）
+            fetch('http://localhost:3000/api/cache1', {
+                method: 'HEAD',
+                cache: 'no-store' // 不使用缓存，只获取头信息
+            })
+                .then(response => {
+                    // 显示缓存信息
+                    const cacheControl = response.headers.get('Cache-Control');
+                    const etag = response.headers.get('ETag');
+                    const lastModified = response.headers.get('Last-Modified');
+
+                    let cacheInfo = '';
+                    if (cacheControl) cacheInfo += `Cache-Control: ${cacheControl}; `;
+                    if (etag) cacheInfo += `ETag: ${etag}; `;
+                    if (lastModified) cacheInfo += `Last-Modified: ${lastModified}`;
+
+                    cacheInfoEl.textContent = cacheInfo || '无缓存信息';
+                })
+                .catch(error => {
+                    console.error('获取头信息失败:', error);
+                });
+        }
+
+    </script>
+</body>
+
+</html>
