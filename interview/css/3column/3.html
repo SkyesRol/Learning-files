@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>圣杯布局</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            padding: 0 200px;
+        }
+
+        .content {
+            float: left;
+            width: 100%;
+            background: white;
+            padding: 20px
+        }
+
+        .left {
+            float: left;
+            position: relative;
+            left: -200px;
+            background-color: pink;
+            margin-left: -100%;
+            width: 200px;
+            padding: 20px;
+            top: 0
+        }
+
+        .right {
+            float: left;
+            position: relative;
+            width: 200px;
+            margin-left: -200px;
+            background-color: pink;
+            right: -200px;
+            top: 0;
+            padding: 20px
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <main class="content">
+            <h1>Main Content Area</h1>
+            <p>主内容的 段落</p>
+        </main>
+        <aside class="left">
+            <h3>Left</h3>
+            <ul>
+                <li>首页</li>
+                <li>关于</li>
+                <li>联系</li>
+            </ul>
+        </aside>
+        <aside class="right">
+            <h3>Right</h3>
+            <p>右sidebar的 段落</p>
+            <ul>
+                <li>右sidebar的 列表项1</li>
+                <li>右sidebar的 列表项2</li>
+                <li>右sidebar的 列表项3</li>
+            </ul>
+        </aside>
+    </div>
+</body>
+
+</html>

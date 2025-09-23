@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grid</title>
+
+    <style>
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 240px 1fr 300px;
+            grid-template-areas:
+                "left content right";
+        }
+
+        @media (max-width:767px) {
+            .grid-layout {
+                grid-template-columns: 1fr;
+                grid-template-areas:
+                    "left"
+                    "content"
+                    "right";
+            }
+
+            .left {
+                grid-area: left
+            }
+
+            .content {
+                grid-area: content
+            }
+
+            .right {
+                grid-area: right
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="grid-layout">
+        <aside class="left sidebar">
+            Left
+        </aside>
+        <main class="content">
+            Main
+        </main>
+        <aside class="right sidebar">
+            Right
+        </aside>
+    </div>
+</body>
+
+</html>
